@@ -108,3 +108,8 @@ nav li {
 .Toastify__toast-container {
   width: 320px !important;
 }
+
+#outlined-text {
+  color: #04011c;
+  -webkit-text-stroke: 1px #e1701e;
+}

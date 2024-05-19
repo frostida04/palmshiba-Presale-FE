@@ -7,6 +7,7 @@ import Gallery from "./Gallery";
 import Claim from "./Claim";
 import Staking from "./Staking";
 import FAQ from "./FAQ";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <Claim />
       <Staking />
       <FAQ />
+      <Footer />
     </Grid>
   );
 };

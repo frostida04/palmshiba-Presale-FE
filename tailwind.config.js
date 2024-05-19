@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require("tailwindcss/plugin");
+
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
@@ -33,6 +36,7 @@ export default {
         holtwood: ["Holtwood One SC", "sans-serif"],
         shareTech: ["Share Tech", "Holtwood One SC"],
         poppins: ["Poppins", "Holtwood One SC"],
+        axiforma: ["Axiforma", "sans-serif"],
       },
       fontSize: {
         metatitle: ["12px", "20px"],
@@ -102,6 +106,11 @@ export default {
         "c-1154": "72.125rem",
         "c-1016": "63.5rem",
       },
+      textShadow: {
+        sm: "0 1px 2px var(--tw-shadow-color)",
+        DEFAULT: "3px 3px 20px var(--tw-shadow-color)",
+        lg: "0 8px 16px var(--tw-shadow-color)",
+      },
       zIndex: {
         99999: "99999",
         999: "999",
@@ -146,5 +155,16 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          "text-shadow": (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme("textShadow") }
+      );
+    }),
+  ],
 };
