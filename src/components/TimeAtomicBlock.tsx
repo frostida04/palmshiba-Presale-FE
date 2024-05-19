@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 interface TimeAtomicBlockProps {
   title: string;
   value: number;
