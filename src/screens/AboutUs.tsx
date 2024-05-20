@@ -1,6 +1,9 @@
 const AboutUs = () => {
   return (
-    <section className="mt-[100px] px-5 md:px-20">
+    <section
+      className="mt-[100px] px-5 md:px-20 relative z-9999"
+      data-aos="fade-up"
+    >
       <h2 className="text-center mb-[100px] font-holtwood text-[40px] text-[#F04C25]">
         ABOUT US
       </h2>
@@ -14,8 +17,12 @@ const AboutUs = () => {
           <img src="images/shiba.png " className="absolute" alt="shiba image" />
         </div>
         <div className="md:w-[50%]">
-          <h3 className="font-holtwood mb-[30px] text-white text-[40px] text-left">
+          <h3 className="font-holtwood relative mb-[30px] text-white text-[40px] text-left">
             MEET PALMSHIBA
+            <img
+              src="images/palm_tree_2.png"
+              className="absolute w-[112px] h-[130px] -top-15 right-0"
+            />
           </h3>
           <div className="text-white text-justify font-helvetica text-[24px]">
             Palmshiba is more than a mascot; it's the heart of Palmshiba. A
@@ -28,6 +35,10 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
+      <img
+        src="images/shiba_footprint.png"
+        className="absolute w-[140px] h-[97px] -top-20 sm:-top-10 left-[100px]"
+      />
     </section>
   );
 };

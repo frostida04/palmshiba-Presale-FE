@@ -1,12 +1,16 @@
 const HowToBuy = () => {
   return (
-    <section className="mt-[200px] px-20">
-      <h2 className="text-center mb-[100px] font-holtwood text-[40px] text-white">
+    <section className="mt-[200px] px-20 z-9999 " data-aos="flip-left">
+      <h2 className="text-center mb-[200px] relative font-holtwood text-[40px] text-white">
         How to <span className="text-[#F7A039]">BUY</span> PALMSHIBA
+        <img
+          src="images/palm_tree_2.png"
+          className="absolute w-[112px] h-[130px] top-45 sm:top-25 lg:top-5 left-0"
+        />
       </h2>
       <div className="lg:flex grid justify-between">
-        <div className="my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[300px] font-helvetica relative rounded-md bg-[#0D0B33] p-7">
-          <div className="w-[115px] h-[97px] -top-[20%] right-0 absolute bg-[#141746] rounded-xl border border-white">
+        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
+          <div className=" w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_1.png"
               className="w-[68px] h-[68px] mt-[10px] mx-auto"
@@ -21,8 +25,8 @@ const HowToBuy = () => {
             preferred wallet. There are various options to choose from.
           </p>
         </div>
-        <div className="my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto  lg:w-1/3 h-[300px] font-helvetica relative rounded-md bg-[#0D0B33] p-7">
-          <div className="w-[115px] h-[97px] -top-[20%] right-0 absolute bg-[#141746] rounded-xl border border-white">
+        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative  bg-[#0D0B33] p-7">
+          <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_21.png"
               className="w-[46.23px] h-[46.23px] absolute left-2 top-3"
@@ -45,8 +49,8 @@ const HowToBuy = () => {
             BNB Chain. PALMSHIBA is multichain right from the start!
           </p>
         </div>
-        <div className="my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto  lg:w-1/3 h-[300px] font-helvetica relative rounded-md bg-[#0D0B33] p-7">
-          <div className="w-[115px] h-[97px] -top-[20%] right-0 absolute bg-[#141746] rounded-xl border border-white">
+        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
+          <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_3.png"
               className="w-[68px] h-[68px] mt-[10px] mx-auto"
@@ -62,9 +66,9 @@ const HowToBuy = () => {
         </div>
       </div>
 
-      <div className="lg:flex grid justify-between mt-[100px]">
-        <div className="my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[300px] font-helvetica relative rounded-md bg-[#0D0B33] p-7">
-          <div className="w-[115px] h-[97px] -top-[20%] right-0 absolute bg-[#141746] rounded-xl border border-white">
+      <div className="lg:flex grid justify-between mt-[150px]">
+        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
+          <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_1.png"
               className="w-[68px] h-[68px] mt-[10px] mx-auto"
@@ -79,8 +83,8 @@ const HowToBuy = () => {
             tokens using the same wallet and chain you used to buy.
           </p>
         </div>
-        <div className="my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto  lg:w-1/3 h-[300px] font-helvetica relative rounded-md bg-[#0D0B33] p-7">
-          <div className="w-[115px] h-[97px] -top-[20%] right-0 absolute bg-[#141746] rounded-xl border border-white">
+        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
+          <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_21.png"
               className="w-[46.23px] h-[46.23px] absolute left-2 top-3"

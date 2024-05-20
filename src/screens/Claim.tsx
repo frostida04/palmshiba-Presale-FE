@@ -1,6 +1,6 @@
 const Claim = () => {
   return (
-    <section className="mt-[200px] px-20">
+    <section className="mt-[200px] px-20 relative z-9999" data-aos="fade-up">
       <h2 className="text-center mb-[100px] font-holtwood text-[40px] text-white">
         CLAIM YOUR{" "}
         <span className="text-[#F7A039]">
@@ -16,6 +16,14 @@ const Claim = () => {
       <p className="text-center font-helvetica text-[32px] text-white text-opacity-40">
         Tokens can be claimed at the end of the presale
       </p>
+      <img
+        src="images/palm_tree_1.png"
+        className="absolute w-[208px] opacity-30 h-[237px] -top-30 left-10"
+      />
+      <img
+        src="images/shiba_footprint.png"
+        className="absolute w-[140px] h-[97px] top-36 right-[7%]"
+      />
     </section>
   );
 };

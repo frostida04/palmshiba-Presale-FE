@@ -2,7 +2,11 @@ import Grid from "../components/Grid";
 
 const Footer = () => {
   return (
-    <Grid className="mt-[100px] lg:px-20">
+    <Grid
+      className="mt-[100px] lg:px-20 z-9999"
+      data-aos="fade-up"
+      data-aos-anchor-placement="top-center"
+    >
       <div className="relative m-auto">
         <div
           id="outlined-text"

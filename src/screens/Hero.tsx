@@ -13,12 +13,12 @@ const Hero = () => {
   useEffect(() => {}, []);
 
   return (
-    <section className="mt-[300px] lg:mt-[50px]">
+    <section className="mt-[300px] lg:mt-[50px] z-9999">
       <div className="flex justify-between md:px-20 lg:pt-[10%]">
         <Grid
           className="z-1 bg-[#141746] sm:w-full  md:w-[600px] w-full md:m-auto lg:m-0 rounded-[45px] border-[9px] border-[#1B0C3D] justify-center items-center"
-          data-aos="fade-down"
           data-aos-easing="ease-in"
+          data-aos="flip-up"
         >
           <Grid className=" shadow-md gap-6 py-8">
             <Grid className="items-center gap-4 px-4">

@@ -2,7 +2,10 @@ import { FaqItem } from "../components/FaqItem";
 
 const FAQ = () => {
   return (
-    <section className="gird lg:flex justify-between mt-[150px] md:px-20">
+    <section
+      className="gird lg:flex justify-between mt-[150px] md:px-20 z-9999"
+      data-aos="flip-down"
+    >
       <div className="grid sm:flex lg:grid">
         <div className="text-center md:text-left">
           <img

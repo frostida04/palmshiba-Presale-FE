@@ -11,10 +11,11 @@ import Footer from "./Footer";
 import BackgroundMask_1 from "../components/BackgroundMask_1";
 import BackgroundMask_2 from "../components/BackgroundMask_2";
 import BackgroundMask_3 from "../components/BackgroundMask_3";
+import BackgroundCartoonIcons from "../components/BackgroundIcons";
 
 const Home = () => {
   return (
-    <Grid className="w-full h-full bg-[#04011C]">
+    <Grid className="w-full h-full bg-[#04011C] overflow-hidden">
       <Header />
       <Hero />
       <AboutUs />
@@ -27,6 +28,7 @@ const Home = () => {
       <BackgroundMask_1 />
       <BackgroundMask_2 />
       <BackgroundMask_3 />
+      <BackgroundCartoonIcons />
     </Grid>
   );
 };
