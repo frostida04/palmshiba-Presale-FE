@@ -113,3 +113,42 @@ nav li {
   color: #04011c;
   -webkit-text-stroke: 1px #e1701e;
 }
+
+#backgroundMask_1 {
+  background-image: conic-gradient(
+    #8dff1b 0%,
+    #297fff 0%,
+    #3870ff 27%,
+    #0f7bfb 52%,
+    #00c2ff 72%,
+    #e1a1ff 100%
+  );
+  rotate: 145deg;
+  filter: blur(100px);
+}
+
+#backgroundMask_2 {
+  background-image: conic-gradient(
+    #8dff1b 0%,
+    #297fff 0%,
+    #3870ff 27%,
+    #0f7bfb 52%,
+    #00c2ff 72%,
+    #e1a1ff 100%
+  );
+  rotate: 180deg;
+  filter: blur(370px);
+}
+
+#backgroundMask_3 {
+  background-image: conic-gradient(
+    #8dff1b 0%,
+    #297fff 0%,
+    #3870ff 27%,
+    #0f7bfb 52%,
+    #00c2ff 72%,
+    #e1a1ff 100%
+  );
+  rotate: 145deg;
+  filter: blur(5000px);
+}

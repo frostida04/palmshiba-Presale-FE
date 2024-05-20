@@ -8,6 +8,9 @@ import Claim from "./Claim";
 import Staking from "./Staking";
 import FAQ from "./FAQ";
 import Footer from "./Footer";
+import BackgroundMask_1 from "../components/BackgroundMask_1";
+import BackgroundMask_2 from "../components/BackgroundMask_2";
+import BackgroundMask_3 from "../components/BackgroundMask_3";
 
 const Home = () => {
   return (
@@ -21,6 +24,9 @@ const Home = () => {
       <Staking />
       <FAQ />
       <Footer />
+      <BackgroundMask_1 />
+      <BackgroundMask_2 />
+      <BackgroundMask_3 />
     </Grid>
   );
 };
