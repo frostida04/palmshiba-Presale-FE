@@ -13,10 +13,10 @@ const Hero = () => {
   useEffect(() => {}, []);
 
   return (
-    <section className="bg-[#04011C] mt-[300px] sm:mt-[300px] lg:mt-[50px] xl:mt-[50px] md:mt-[300px]">
-      <div className=" grid grid-cols-1  md:grid-cols-2 px-0 md:px-20 lg:py-[10%] p-4 gap-20 md:gap-0 max-w-full">
+    <section className="mt-[300px] lg:mt-[50px]">
+      <div className="flex justify-between md:px-20 lg:pt-[10%]">
         <Grid
-          className="z-1 bg-[#141746] sm:w-full md:w-[600px] w-full  rounded-[45px] border-[9px] border-[#1B0C3D] justify-center items-center"
+          className="z-1 bg-[#141746] sm:w-full  md:w-[600px] w-full md:m-auto lg:m-0 rounded-[45px] border-[9px] border-[#1B0C3D] justify-center items-center"
           data-aos="fade-down"
           data-aos-easing="ease-in"
         >

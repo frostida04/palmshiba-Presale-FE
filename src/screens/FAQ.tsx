@@ -2,26 +2,36 @@ import { FaqItem } from "../components/FaqItem";
 
 const FAQ = () => {
   return (
-    <section className="flex mt-[150px] px-20">
-      <div className="w-1/3 mr-[30px]">
-        <img src="images/faq.png" className="w-[78.54px] h-[64px]" />
-        <h3 className=" text-[40px] text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] to-[#600606] font-holtwood">
-          PALMSHIBA
-        </h3>
-        <h3 className="font-holtwood text-white text-[40px] ">FAQ</h3>
-        <p className="font-helvetica text-[20px] text-white text-opacity-40">
-          Frequently asked questions regarding our Palmshiba{" "}
-        </p>
-        <div className="w-[370px] mt-[150px] h-[370px] relative">
+    <section className="gird lg:flex justify-between mt-[150px] md:px-20">
+      <div className="grid sm:flex lg:grid">
+        <div className="text-center md:text-left">
+          <img
+            src="images/faq.png"
+            className="w-[78.54px] h-[64px] m-auto md:m-0"
+          />
+          <h3 className=" text-[40px] text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] to-[#600606] font-holtwood">
+            PALMSHIBA
+          </h3>
+          <h3 className="font-holtwood text-white text-[40px] ">FAQ</h3>
+          <p className="font-helvetica text-[20px] text-white text-opacity-40">
+            Frequently asked questions regarding our Palmshiba{" "}
+          </p>
+        </div>
+
+        <div className="mx-auto w-[370px] mt-[100px] sm:mt-0 lg:mt-[150px] h-[370px] relative">
           <img
             src="images/leaves.png"
-            className="absolute bottom-25 left-4"
+            className="sm:w-[370px] sm:h-[300px] absolute bottom-[30%] left-[5%]"
             alt="leaves image"
           />
-          <img src="images/shiba.png " className="absolute" alt="shiba image" />
+          <img
+            src="images/shiba.png "
+            className="sm:w-[370px] sm:h-[300px] absolute"
+            alt="shiba image"
+          />
         </div>
       </div>
-      <div className="w-2/3">
+      <div className="w-full lg:w-[60%]">
         <FaqItem no="01" title="WHAT IS 'PALM SHIBA'?">
           <div>
             Step into the digital frontier of 'palmshiba', a captivating journey

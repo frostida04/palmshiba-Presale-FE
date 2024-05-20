@@ -40,7 +40,7 @@ export const FaqItem = (props: FaqItemProps) => {
           <Grid
             className={`${
               !show ? "!hidden" : "flex-col"
-            } text-white pl-[10%]  text-justify font-helvetica text-[18.79px] mt-[5%] gap-5`}
+            } text-white pl-[10%] pr-[3%]  text-justify font-helvetica text-[18.79px] mt-[5%] gap-5`}
           >
             {children}
           </Grid>

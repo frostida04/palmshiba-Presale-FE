@@ -68,7 +68,7 @@ const Header = () => {
           </nav>
         </div>
         <div className="ml-5">
-          <button className="lg:w-[] w-full py-3 px-5 text-white border bg-opacity-15  border-[#E5B50A] font-helvetica text-[20px] rounded-lg gap-2">
+          <button className=" w-full py-3 px-5 text-white border bg-opacity-15  border-[#E5B50A] font-helvetica text-[20px] rounded-lg gap-2">
             Connect Wallet
           </button>
         </div>

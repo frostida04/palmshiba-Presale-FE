@@ -1,11 +1,11 @@
 const Gallery = () => {
   return (
-    <section className="mt-[100px] px-20">
-      <h2 className="text-center mb-[100px] font-holtwood text-[40px] text-[#E1931E]">
+    <section className="mt-[200px] px-20">
+      <h2 className="text-center mb-[80px] font-holtwood text-[40px] text-[#E1931E]">
         GALLERY
       </h2>
       <div className="">
-        <div className="flex h-[416px] mb-[30px]">
+        <div className="flex h-[170px] sm:h-[220px] md:h-[300px] lg:h-[416px] mb-[30px]">
           <img
             src="images/gal_1.png"
             alt="gal_1"
@@ -17,7 +17,7 @@ const Gallery = () => {
             className="w-2/3 rounded-2xl"
           />
         </div>
-        <div className="flex h-[416px]">
+        <div className="flex h-[170px] sm:h-[220px]  md:h-[300px] lg:h-[416px]">
           <img
             src="images/gal_3.png"
             alt="gal_3"
