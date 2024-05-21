@@ -135,7 +135,7 @@ const Hero = () => {
   const calcReceiveAmount = async () => {
     if (!isConnected || (chainId !== 1 && chainId !== 56) || web3 === null)
       return;
-    const tmpBuyAmount = parseFloat(buyAmount);
+    let tmpBuyAmount = parseFloat(buyAmount);
     if (isNaN(tmpBuyAmount) || tmpBuyAmount <= 0) {
       setReceiveAmount(0.0);
       return;
@@ -151,6 +151,7 @@ const Hero = () => {
         BINANCE_TOKEN_CONTRACT_ABI,
         BINANCE_TOKEN_CONTRACT_ADDRESS
       );
+
     const tmpTotalCap = await contract?.methods.totalCap().call();
     setTotalCap(Number(tmpTotalCap));
     let price;
@@ -180,7 +181,7 @@ const Hero = () => {
   const doBuyTokens = async () => {
     if (!isConnected || (chainId !== 1 && chainId !== 56) || web3 === null)
       return;
-    const tmpBuyAmount = parseFloat(buyAmount);
+    let tmpBuyAmount = parseFloat(buyAmount);
     if (isNaN(tmpBuyAmount) || tmpBuyAmount <= 0) {
       setReceiveAmount(0.0);
       return;
@@ -196,11 +197,13 @@ const Hero = () => {
         BINANCE_TOKEN_CONTRACT_ABI,
         BINANCE_TOKEN_CONTRACT_ADDRESS
       );
+    tmpBuyAmount = tmpBuyAmount * 10 ** 18;
+
     switch (selectedBuyMethod) {
       case "BSC":
         contract?.methods
           .buyTokenWithBNB()
-          .send({ from: address, value: buyAmount })
+          .send({ from: address, value: tmpBuyAmount.toString() })
           .on("transactionHash", function (hash) {
             toast(
               <Notification
@@ -217,7 +220,10 @@ const Hero = () => {
       case "ETH":
         contract?.methods
           .buyTokenWithETH()
-          .send({ from: address, value: buyAmount })
+          .send({
+            from: address,
+            value: tmpBuyAmount.toString(),
+          })
           .on("transactionHash", function (hash) {
             toast(
               <Notification
@@ -231,10 +237,11 @@ const Hero = () => {
           });
         break;
       case "USDT":
-        // alert(address + " " + buyAmount + " ");
         contract?.methods
-          .buyTokenWithUSDT({ _usdtAmount: BigInt(buyAmount) })
-          .send({ from: address, value: buyAmount })
+          .buyTokenWithUSDT({
+            _usdtAmount: parseFloat(buyAmount),
+          })
+          .send({ from: address })
           .on("transactionHash", function (hash) {
             toast(
               <Notification
