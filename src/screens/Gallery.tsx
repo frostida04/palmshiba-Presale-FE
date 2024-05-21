@@ -19,14 +19,14 @@ const Gallery = () => {
           <img
             src="images/gal_2.jpg"
             alt="gal_1"
-            className="w-2/3 rounded-2xl"
+            className="w-2/3 object-cover rounded-2xl"
           />
         </div>
         <div className="flex h-[170px] sm:h-[220px]  md:h-[300px] lg:h-[416px]">
           <img
-            src="images/gal_3.png"
+            src="images/gal_3_u.png"
             alt="gal_3"
-            className="w-2/3 rounded-2xl mr-[30px]"
+            className="w-2/3 rounded-2xl mr-[30px] object-cover"
           />
           <img
             src="images/gal_4.jpg"
