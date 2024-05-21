@@ -3,7 +3,7 @@ import { FaqItem } from "../components/FaqItem";
 const FAQ = () => {
   return (
     <section
-      className="gird lg:flex justify-between mt-[150px] md:px-20 z-9999"
+      className="gird lg:flex justify-between mt-[150px] md:px-20 z-10"
       data-aos="flip-down"
     >
       <div className="grid sm:flex lg:grid">

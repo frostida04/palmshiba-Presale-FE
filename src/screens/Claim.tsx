@@ -1,6 +1,6 @@
 const Claim = () => {
   return (
-    <section className="mt-[200px] px-20 relative z-9999" data-aos="fade-up">
+    <section className="mt-[200px] px-20 relative z-10" data-aos="fade-up">
       <h2 className="text-center mb-[100px] font-holtwood text-[40px] text-white">
         CLAIM YOUR{" "}
         <span className="text-[#F7A039]">

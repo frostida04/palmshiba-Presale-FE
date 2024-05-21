@@ -1,6 +1,6 @@
 const HowToBuy = () => {
   return (
-    <section className="mt-[200px] px-20 z-9999 " data-aos="flip-left">
+    <section className="mt-[200px] px-20 z-10 " data-aos="flip-left">
       <h2 className="text-center mb-[200px] relative font-holtwood text-[40px] text-white">
         How to <span className="text-[#F7A039]">BUY</span> PALMSHIBA
         <img

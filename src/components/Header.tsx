@@ -22,7 +22,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed  left-0 top-0 z-99999 w-full py-4 px-[80px] bg-[#04011C] shadow-lg transition duration-100 rounded-sm`}
+      className={`fixed  left-0 top-0 z-999  w-full py-4 px-[80px] bg-[#04011C] shadow-lg transition duration-100 rounded-sm`}
       data-aos="fade-down"
     >
       <div className="max-w-full items-center lg:flex">
@@ -69,9 +69,10 @@ const Header = () => {
           </nav>
         </div>
         <div className="ml-5">
-          <button className=" w-full py-3 px-5 text-white border bg-opacity-15  border-[#E5B50A] font-helvetica text-[20px] rounded-lg gap-2">
+          {/* <button className=" w-full py-3 px-5 text-white border bg-opacity-15  border-[#E5B50A] font-helvetica text-[20px] rounded-lg gap-2">
             Connect Wallet
-          </button>
+          </button> */}
+          <w3m-button />
         </div>
       </div>
     </header>

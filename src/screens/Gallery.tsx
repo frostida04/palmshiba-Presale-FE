@@ -1,7 +1,7 @@
 const Gallery = () => {
   return (
     <section
-      className="mt-[200px] px-20 z-9999"
+      className="mt-[200px] px-20 z-10"
       data-aos="fade-right"
       data-aos-offset="300"
       data-aos-easing="ease-in-sine"

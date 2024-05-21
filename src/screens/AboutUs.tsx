@@ -1,7 +1,7 @@
 const AboutUs = () => {
   return (
     <section
-      className="mt-[100px] px-5 md:px-20 relative z-9999"
+      className="mt-[100px] px-5 md:px-20 relative z-10"
       data-aos="fade-up"
     >
       <h2 className="text-center mb-[100px] font-holtwood text-[40px] text-[#F04C25]">
