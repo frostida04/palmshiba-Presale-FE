@@ -14,7 +14,7 @@ const Staking = () => {
       <h2 className="z-10 text-center outlined-text font-holtwood text-[30px] sm:text-[35px] md:text-[54px] text-white">
         STAKING IS
       </h2>
-      <h3 className="z-10 text-center  font-holtwood text-[50px] sm-text-[60px] md:text-[96px] bg-clip-text text-transparent bg-gradient-to-b from-[#F8AC35] to-[#F15652]">
+      <h3 className="z-10 text-center  font-holtwood text-[40px] sm-text-[60px] md:text-[96px] bg-clip-text text-transparent bg-gradient-to-b from-[#F8AC35] to-[#F15652]">
         COMING
         <br /> SOON
       </h3>

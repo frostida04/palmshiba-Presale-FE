@@ -25,7 +25,7 @@ const AboutUs = () => {
               className="absolute w-[112px] h-[130px] -top-15 right-0"
             />
           </h3>
-          <div className="text-white text-justify font-helvetica text-[20px] sm:text-[24px]">
+          <div className="text-white text-justify w-[90%] sm:w-auto font-helvetica text-[20px] sm:text-[24px]">
             Palmshiba is more than a mascot; it's the heart of Palmshiba. A
             symbol of playfulness and loyalty, Palmshiba is a community-driven
             crypto adventure. Dive into a world where memes meet finance, and

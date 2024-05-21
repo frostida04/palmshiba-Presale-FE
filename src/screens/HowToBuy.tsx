@@ -74,7 +74,7 @@ const HowToBuy = () => {
         <div className="folder my-20 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
           <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
-              src="images/howto_1.png"
+              src="images/faq.png"
               className="w-[68px] h-[68px] mt-[10px] mx-auto"
             />
           </div>
@@ -90,16 +90,8 @@ const HowToBuy = () => {
         <div className="folder my-20 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
           <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
-              src="images/howto_21.png"
-              className="w-[46.23px] h-[46.23px] absolute left-2 top-3"
-            />
-            <img
-              src="images/howto_22.png"
-              className="w-[79.11px] h-[85.34px] absolute -right-3 -top-2"
-            />
-            <img
-              src="images/howto_23.png"
-              className="w-[64px] h-[64px] absolute left-7 bottom-0"
+              src="images/USDT.png"
+              className="w-[68px] h-[68px] mt-[10px] mx-auto"
             />
           </div>
           <p className="text-[#F04C25] text-[22px]">

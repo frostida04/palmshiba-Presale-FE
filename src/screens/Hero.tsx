@@ -27,6 +27,10 @@ const ETHEREUM_TOKEN_CONTRACT_ADDRESS =
 const BINANCE_TOKEN_CONTRACT_ADDRESS =
   "0xb222719234E8F63cf067Cdc00b2024E0f61431D2"; //REAL
 
+//USDT token address
+const USDT_ADDRESS_ON_ETHEREUM = "0xdac17f958d2ee523a2206206994597c13d831ec7";
+const USDT_ADDRESS_ON_BINANCE = "0x55d398326f99059ff775485246999027b3197955";
+
 const Hero = () => {
   /////////////// State & variables       ////////////////////////////
   const [isBuyWithOpened, setIsBuyWithOpened] = useState<boolean>(false);
@@ -37,6 +41,8 @@ const Hero = () => {
     useState<string>("None");
 
   const [web3, setWeb3] = useState<Web3 | null>(null);
+  const [shibaPrice, setShibaPrice] = useState<Number>(0.0);
+  const [totalCap, setTotalCap] = useState<Number>(0.0);
   const [ethPrice, setEthPrice] = useState<Number>(0.0);
   const [bnbPrice, setBnbPrice] = useState<Number>(0.0);
   const [hasPresaleStarted, setHasPresaleStarted] = useState<Boolean>(false);
@@ -49,7 +55,17 @@ const Hero = () => {
   ///////////////  hook                   /////////////////////////////
   const { open } = useWeb3Modal();
   const { address, isConnected, chainId } = useAccount();
-  const balance = useBalance({ address: address });
+  const balance = useBalance({
+    address: address,
+  });
+
+  const usdtBalance = useBalance({
+    address: address,
+    token:
+      connectedNetworkName === "ETHEREUM"
+        ? USDT_ADDRESS_ON_ETHEREUM
+        : USDT_ADDRESS_ON_BINANCE,
+  });
 
   ///////////////   helper functions      ////////////////////////////
   const myRound = (valueToBeRounded: any): any => {
@@ -135,6 +151,8 @@ const Hero = () => {
         BINANCE_TOKEN_CONTRACT_ABI,
         BINANCE_TOKEN_CONTRACT_ADDRESS
       );
+    const tmpTotalCap = await contract?.methods.totalCap().call();
+    setTotalCap(Number(tmpTotalCap));
     let price;
     switch (selectedBuyMethod) {
       case "BSC":
@@ -156,6 +174,7 @@ const Hero = () => {
         setReceiveAmount(myRound(tmpUsdtReceiveAmount));
         break;
     }
+    setShibaPrice(Number(price));
   };
 
   const doBuyTokens = async () => {
@@ -245,13 +264,15 @@ const Hero = () => {
         BINANCE_TOKEN_CONTRACT_ABI,
         BINANCE_TOKEN_CONTRACT_ADDRESS
       );
-    const tmpStarted = await contract?.methods.calculateRemainingTime().call();
+    const tmpStarted = await contract?.methods.presaleStarted().call();
     setHasPresaleStarted(Boolean(tmpStarted));
     if (!tmpStarted) {
       setTimeRemained(0);
       return;
     }
-    const tmpTimeRemained = await contract?.methods.presaleStarted().call();
+    const tmpTimeRemained = await contract?.methods
+      .calculateRemainingTime()
+      .call();
     setTimeRemained(Number(tmpTimeRemained));
   };
 
@@ -302,7 +323,10 @@ const Hero = () => {
 
   const dispCoreButton = () => {
     if (isConnected) {
-      return Number(buyAmount) < Number(balance.data?.value) ? (
+      return (selectedBuyMethod === "USDT" &&
+        Number(buyAmount) * 10 ** 6 < Number(usdtBalance.data?.value)) ||
+        (selectedBuyMethod !== "USDT" &&
+          Number(buyAmount) * 10 ** 18 < Number(balance.data?.value)) ? (
         <button
           onClick={() => handleBuyTokens()}
           className=" bg-[#0D0B33] h-[53px] tracking-wider font-shareTech mx-auto sm:mx-0 text-[20px] w-[90%] sm:w-full rounded-lg font-normal text-white"
@@ -404,13 +428,13 @@ const Hero = () => {
                     RAISED:
                   </p>
                   <p className="font-shareTech my-auto text-[#F7A039] text-[24px]">
-                    $ 1,435,379.01/$2,000,000
+                    $ {totalCap.toString()}/$2,000,000
                   </p>
                 </div>
                 <div className="flex justify-between">
                   <div className="sm:block hidden w-[125px] border my-auto border-white"></div>
                   <p className="h-[23px] mx-auto sm:mx-0 text-[#F7A039] font-shareTech text-[20px] text-center">
-                    1 BCF = $0.000375
+                    1 BCF = ${shibaPrice.toString()}
                   </p>
                   <div className="sm:block hidden w-[125px] border my-auto border-white"></div>
                 </div>

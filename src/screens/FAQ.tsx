@@ -13,12 +13,14 @@ const FAQ = () => {
             src="images/faq.png"
             className="w-[78.54px] h-[64px] m-auto md:m-0"
           />
-          <h3 className=" text-[40px] text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] to-[#600606] font-holtwood">
+          <h3 className="text-[35px] sm:text-[40px] text-transparent bg-clip-text bg-gradient-to-r from-[#FFB800] to-[#600606] font-holtwood">
             PALMSHIBA
           </h3>
-          <h3 className="font-holtwood text-white text-[40px] ">FAQ</h3>
-          <p className="font-helvetica text-[20px] text-white text-opacity-40">
-            Frequently asked questions regarding our Palmshiba{" "}
+          <h3 className="font-holtwood text-white text-[30px] sm:text-[40px] ">
+            FAQ
+          </h3>
+          <p className="font-helvetica text-[20px] w-[350px] sm:w-auto text-white text-opacity-40">
+            Frequently asked questions regarding our Palmshiba
           </p>
         </div>
 

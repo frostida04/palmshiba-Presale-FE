@@ -5,7 +5,7 @@ const Claim = () => {
       className="mt-[200px] px-20 relative z-10"
       data-aos="fade-up"
     >
-      <h2 className="text-center mb-[100px] font-holtwood text-[40px] text-white">
+      <h2 className="text-center break-words  mb-[100px] font-holtwood text-[40px] text-white">
         CLAIM YOUR{" "}
         <span className="text-[#F7A039]">
           PALMSHIBA <br />
