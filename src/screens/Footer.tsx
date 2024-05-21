@@ -27,9 +27,19 @@ const Footer = () => {
             in
           </button>
         </div>
-        <div className="md:mt-0 mt-[20px]">
-          <button className="w-[125.89px] mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]"></button>
-          <button className="w-[125.89px] mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]"></button>
+        <div className="flex md:mt-0 mt-[20px]">
+          <div className="w-[125.89px] cursor-pointer  mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
+            <img
+              src="images/touch_1.PNG"
+              className="w-[70%] mt-[30px] mx-auto"
+            />
+          </div>
+          <div className="w-[125.89px] mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
+            <img
+              src="images/touch_2.PNG"
+              className="w-[70%] mt-[30px] mx-auto"
+            />
+          </div>
         </div>
       </div>
       <div className="relative mt-[300px] lg:mt-[100px] mb-[150px] w-full h-[95px] border-t-2 border-t-white border-opacity-20">

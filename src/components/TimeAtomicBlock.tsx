@@ -1,13 +1,13 @@
 interface TimeAtomicBlockProps {
   title: string;
-  value: number;
+  value: Number;
 }
 
 const TimeAtomicBlock: React.FC<TimeAtomicBlockProps> = ({ title, value }) => {
   return (
     <div className="relative mx-[5.42px]">
       <div className="absolute -top-4 right-0 font-shareTech text-white text-[85.29px]">
-        {value}
+        {value.toString()}
       </div>
       <div className="rounded-md w-[100.28px] h-[42.37px] bg-[#F7A039]"></div>
       <div className="absolute left-[50%] top-[45%] ">

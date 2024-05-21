@@ -39,6 +39,12 @@ const Hero = () => {
   const [web3, setWeb3] = useState<Web3 | null>(null);
   const [ethPrice, setEthPrice] = useState<Number>(0.0);
   const [bnbPrice, setBnbPrice] = useState<Number>(0.0);
+  const [hasPresaleStarted, setHasPresaleStarted] = useState<Boolean>(false);
+  const [timeRemained, setTimeRemained] = useState<Number>(0);
+  const [daysRemained, setDaysRemained] = useState<Number>(0);
+  const [hoursRemained, setHoursRemained] = useState<Number>(0);
+  const [minutesRemained, setMinutesRemained] = useState<Number>(0);
+  const [secondsRemained, setSecondRemained] = useState<Number>(0);
 
   ///////////////  hook                   /////////////////////////////
   const { open } = useWeb3Modal();
@@ -158,7 +164,7 @@ const Hero = () => {
     const tmpBuyAmount = parseFloat(buyAmount);
     if (isNaN(tmpBuyAmount) || tmpBuyAmount <= 0) {
       setReceiveAmount(0.0);
-      // return;
+      return;
     }
     let contract;
     if (chainId === 1)
@@ -208,7 +214,7 @@ const Hero = () => {
       case "USDT":
         // alert(address + " " + buyAmount + " ");
         contract?.methods
-          .buyTokenWithUSDT()
+          .buyTokenWithUSDT({ _usdtAmount: BigInt(buyAmount) })
           .send({ from: address, value: buyAmount })
           .on("transactionHash", function (hash) {
             toast(
@@ -223,6 +229,30 @@ const Hero = () => {
           });
         break;
     }
+  };
+
+  const getPresaleStatus = async () => {
+    if (!isConnected || (chainId !== 1 && chainId !== 56) || web3 === null)
+      return;
+    let contract;
+    if (chainId === 1)
+      contract = new web3.eth.Contract(
+        ETHEREUM_TOKEN_CONTRACT_ABI,
+        ETHEREUM_TOKEN_CONTRACT_ADDRESS
+      );
+    else if (chainId === 56)
+      contract = new web3.eth.Contract(
+        BINANCE_TOKEN_CONTRACT_ABI,
+        BINANCE_TOKEN_CONTRACT_ADDRESS
+      );
+    const tmpStarted = await contract?.methods.calculateRemainingTime().call();
+    setHasPresaleStarted(Boolean(tmpStarted));
+    if (!tmpStarted) {
+      setTimeRemained(0);
+      return;
+    }
+    const tmpTimeRemained = await contract?.methods.presaleStarted().call();
+    setTimeRemained(Number(tmpTimeRemained));
   };
 
   /////////////// UI EVENT HANDLE SECTION /////////////////////////////
@@ -299,6 +329,20 @@ const Hero = () => {
     }
   };
 
+  const dispPresaleStatus = () => {
+    if (hasPresaleStarted) return "TIME REMAINING";
+    return "HAS NOT STARTED YET";
+  };
+
+  const updateCount = () => {
+    if (timeRemained === 0) return;
+    setTimeRemained(Number(timeRemained) - Number(1));
+    setDaysRemained(Number(timeRemained) / (60 * 60 * 24));
+    setHoursRemained((Number(timeRemained) % (60 * 60 * 24)) / (60 * 60));
+    setMinutesRemained((Number(timeRemained) % (60 * 60)) / 60);
+    setSecondRemained(Number(timeRemained) % 60);
+  };
+
   useEffect(() => {
     if (!isConnected) return;
     if (chainId === 1) {
@@ -314,6 +358,11 @@ const Hero = () => {
     }
     setBuyAmount("0.0");
     setReceiveAmount(0.0);
+    getPresaleStatus();
+
+    const intervalId = setInterval(updateCount, 1000);
+
+    return () => clearInterval(intervalId);
   }, [isConnected, chainId]);
 
   useEffect(() => {
@@ -334,19 +383,19 @@ const Hero = () => {
                 BUY <span className="text-[#F7A039]">PALSHIBA</span>
               </h2>
               <p className="text-white font-shareTech text-[25.24px]">
-                TIME REMAINING
+                {dispPresaleStatus()}
               </p>
             </Grid>
 
             <div>
               <div className="flex justify-center">
-                <TimeAtomicBlock title="days" value={5} />
+                <TimeAtomicBlock title="days" value={daysRemained} />
                 <TimeAtomicBlockSepeateComp />
-                <TimeAtomicBlock title="hours" value={20} />
+                <TimeAtomicBlock title="hours" value={hoursRemained} />
                 <TimeAtomicBlockSepeateComp />
-                <TimeAtomicBlock title="minutes" value={12} />
+                <TimeAtomicBlock title="minutes" value={minutesRemained} />
                 <TimeAtomicBlockSepeateComp />
-                <TimeAtomicBlock title="days" value={39} />
+                <TimeAtomicBlock title="days" value={secondsRemained} />
               </div>
               <div className="pt-7">
                 <div className="flex justify-between">
