@@ -1,6 +1,10 @@
 const HowToBuy = () => {
   return (
-    <section className="mt-[200px] px-20 z-10 " data-aos="flip-left">
+    <section
+      id="howtobuy"
+      className="mt-[200px] px-20 z-10 "
+      data-aos="flip-left"
+    >
       <h2 className="text-center mb-[200px] relative font-holtwood text-[40px] text-white">
         How to <span className="text-[#F7A039]">BUY</span> PALMSHIBA
         <img
@@ -9,7 +13,7 @@ const HowToBuy = () => {
         />
       </h2>
       <div className="lg:flex grid justify-between">
-        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
+        <div className="folder my-20 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-auto sm:h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
           <div className=" w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_1.png"
@@ -25,7 +29,7 @@ const HowToBuy = () => {
             preferred wallet. There are various options to choose from.
           </p>
         </div>
-        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative  bg-[#0D0B33] p-7">
+        <div className="folder my-20 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-auto sm:h-[250px] font-helvetica relative  bg-[#0D0B33] p-7">
           <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_21.png"
@@ -49,7 +53,7 @@ const HowToBuy = () => {
             BNB Chain. PALMSHIBA is multichain right from the start!
           </p>
         </div>
-        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
+        <div className="folder my-20 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-auto sm:h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
           <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_3.png"
@@ -66,8 +70,8 @@ const HowToBuy = () => {
         </div>
       </div>
 
-      <div className="lg:flex grid justify-between mt-[150px]">
-        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
+      <div className="lg:flex grid justify-between lg:mt-[150px]">
+        <div className="folder my-20 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-auto sm:h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
           <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_1.png"
@@ -83,7 +87,7 @@ const HowToBuy = () => {
             tokens using the same wallet and chain you used to buy.
           </p>
         </div>
-        <div className="folder my-10 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
+        <div className="folder my-20 lg:my-0 lg:mx-2 md:w-2/3 mx-auto lg:w-1/3 h-auto sm:h-[250px] font-helvetica relative bg-[#0D0B33] p-7">
           <div className="w-[115px] h-[97px] -top-[43%] right-0 absolute bg-[#141746] rounded-xl border border-white">
             <img
               src="images/howto_21.png"

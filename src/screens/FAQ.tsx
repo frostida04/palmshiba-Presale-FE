@@ -3,6 +3,7 @@ import { FaqItem } from "../components/FaqItem";
 const FAQ = () => {
   return (
     <section
+      id="faq"
       className="gird lg:flex justify-between mt-[150px] md:px-20 z-10"
       data-aos="flip-down"
     >

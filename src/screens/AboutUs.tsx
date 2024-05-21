@@ -1,6 +1,7 @@
 const AboutUs = () => {
   return (
     <section
+      id="about"
       className="mt-[100px] px-5 md:px-20 relative z-10"
       data-aos="fade-up"
     >

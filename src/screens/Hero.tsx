@@ -370,7 +370,7 @@ const Hero = () => {
   }, [buyAmount]);
 
   return (
-    <section className="mt-[300px] lg:mt-[50px]">
+    <section className="mt-[150px] lg:mt-[50px]">
       <div className="flex justify-between md:px-20 lg:pt-[10%]">
         <Grid
           className="z-1 bg-[#141746] sm:w-full  md:w-[600px] w-full md:m-auto lg:m-0 rounded-[45px] border-[9px] border-[#1B0C3D] justify-center items-center"
@@ -398,7 +398,7 @@ const Hero = () => {
                 <TimeAtomicBlockSepeateComp />
                 <TimeAtomicBlock title="days" value={secondsRemained} />
               </div>
-              <div className="pt-7">
+              <div className="pt-7 mt-5 sm:mt-0">
                 <div className="sm:flex sm:justify-between grid justify-center">
                   <p className="font-shareTech sm:mx-0 mx-auto my-auto text-white text-[32px]">
                     RAISED:
@@ -414,7 +414,7 @@ const Hero = () => {
                   </p>
                   <div className="sm:block hidden w-[125px] border my-auto border-white"></div>
                 </div>
-                <div className="sm:px-0 px-10 grid sm:flex justify-between">
+                <div className="mt-7 sm:mt-0 sm:px-0 px-[10%] grid sm:flex justify-between">
                   <div className="">
                     <p className="font-shareTech  text-white text-[20px]">
                       Amount you pay
@@ -501,7 +501,7 @@ const Hero = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="">
+                  <div className="mt-3 sm:mt-0">
                     <p className="font-shareTech text-white text-[20px]">
                       PALMSHIBA you receive
                     </p>

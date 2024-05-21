@@ -1,6 +1,10 @@
 const Staking = () => {
   return (
-    <div className="mt-[200px] px-20 relative z-10" data-aos="zoom-in-up">
+    <div
+      id="faq"
+      className="mt-[200px] px-20 relative z-10"
+      data-aos="zoom-in-up"
+    >
       <div className="w-[42%] h-full absolute left-[50%] top-[50%]">
         <img
           src="images/shiba_footprintf_filled.png"
