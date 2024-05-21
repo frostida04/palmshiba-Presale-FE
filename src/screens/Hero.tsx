@@ -374,13 +374,14 @@ const Hero = () => {
       <div className="flex justify-between md:px-20 lg:pt-[10%]">
         <Grid
           className="z-1 bg-[#141746] sm:w-full  md:w-[600px] w-full md:m-auto lg:m-0 rounded-[45px] border-[9px] border-[#1B0C3D] justify-center items-center"
-          data-aos-easing="ease-in"
-          data-aos="flip-up"
+          // data-aos-easing="ease-in"
+          // data-aos="flip-up"
         >
           <Grid className=" shadow-md gap-6 py-8">
             <Grid className="items-center gap-4 px-4">
-              <h2 className="text-[40px] font-holtwood font-bold text-white">
-                BUY <span className="text-[#F7A039]">PALSHIBA</span>
+              <h2 className="text-[35px] sm:text-[40px] text-center text-pretty font-holtwood font-bold text-white">
+                BUY{" "}
+                <span className="text-[#F7A039] block sm:inline">PALSHIBA</span>
               </h2>
               <p className="text-white font-shareTech text-[25.24px]">
                 {dispPresaleStatus()}
@@ -398,120 +399,126 @@ const Hero = () => {
                 <TimeAtomicBlock title="days" value={secondsRemained} />
               </div>
               <div className="pt-7">
-                <div className="flex justify-between">
-                  <p className="font-shareTech text-white text-[32px]">
+                <div className="sm:flex sm:justify-between grid justify-center">
+                  <p className="font-shareTech sm:mx-0 mx-auto my-auto text-white text-[32px]">
                     RAISED:
                   </p>
-                  <p className="font-shareTech text-[#F7A039] text-[24px]">
+                  <p className="font-shareTech my-auto text-[#F7A039] text-[24px]">
                     $ 1,435,379.01/$2,000,000
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <div className="w-[125px] border my-auto border-white"></div>
-                  <p className="h-[23px] text-[#F7A039] font-shareTech text-[20px] text-center">
+                  <div className="sm:block hidden w-[125px] border my-auto border-white"></div>
+                  <p className="h-[23px] mx-auto sm:mx-0 text-[#F7A039] font-shareTech text-[20px] text-center">
                     1 BCF = $0.000375
                   </p>
-                  <div className="w-[125px] border my-auto border-white"></div>
+                  <div className="sm:block hidden w-[125px] border my-auto border-white"></div>
                 </div>
-                <div className="flex justify-between font-shareTech text-white text-[20px]">
-                  <p>Amount you pay</p>
-                  <p>PALMSHIBA you receive</p>
-                </div>
-                <div className="flex justify-between">
-                  <div className="relative flex justify-between w-[182px] h-[53px] rounded-[8px] bg-[#0D0B33]">
-                    <div className="m-auto">
-                      <input
-                        type="text"
-                        value={buyAmount}
-                        onChange={(e) => handleBuyAmountChanged(e)}
-                        className="text-[#F7A039] pl-3 font-poppins outline-none w-[115px] bg-transparent text-[20px]"
-                      />
-                    </div>
-                    <div className="flex justify-between m-auto">
-                      <div className="m-auto h-[34px] w-0 border border-gray-700"></div>
-                      <div
-                        className="m-auto"
-                        onClick={() => handleBuyWithButtonClicked()}
-                      >
-                        <img
-                          src={getBuyWithMethodImageUrl()}
-                          className="w-[50px]"
+                <div className="sm:px-0 px-10 grid sm:flex justify-between">
+                  <div className="">
+                    <p className="font-shareTech  text-white text-[20px]">
+                      Amount you pay
+                    </p>
+                    <div className="relative flex justify-between  w-[182px] h-[53px] rounded-[8px] bg-[#0D0B33]">
+                      <div className="m-auto">
+                        <input
+                          type="text"
+                          value={buyAmount}
+                          onChange={(e) => handleBuyAmountChanged(e)}
+                          className="text-[#F7A039] pl-3 font-poppins outline-none w-[115px] bg-transparent text-[20px]"
                         />
                       </div>
-                    </div>
-                    <div
-                      className={`${
-                        isBuyWithOpened ? "block" : "hidden"
-                      } absolute z-20 rounded-md top-[53px] left-0 w-[182px] bg-[#0D0B33]`}
-                    >
-                      <p className="text-white ml-[20px] font-poppins text-[16px]">
-                        Buy with
-                      </p>
-                      <div
-                        onClick={() => handleBuyWithSelected("BSC")}
-                        className={`${
-                          connectedNetworkName === "ETHEREUM"
-                            ? "hidden"
-                            : "block"
-                        } cursor-pointer flex text-lef`}
-                      >
-                        <div className="m-auto w-[38px] h-[38px]">
+                      <div className="flex justify-between m-auto">
+                        <div className="m-auto h-[34px] w-0 border border-gray-700"></div>
+                        <div
+                          className="m-auto"
+                          onClick={() => handleBuyWithButtonClicked()}
+                        >
                           <img
-                            src="images/BSC.png"
-                            className="w-[38px] h-[38px]"
+                            src={getBuyWithMethodImageUrl()}
+                            className="w-[50px]"
                           />
                         </div>
-                        <p className="pl-[10px] my-auto w-[144px] font-poppins text-white text-[16px]">
-                          Binance Token
-                        </p>
                       </div>
                       <div
-                        onClick={() => handleBuyWithSelected("ETH")}
                         className={`${
-                          connectedNetworkName === "BINANCE"
-                            ? "hidden"
-                            : "block"
-                        } cursor-pointer flex text-lef`}
+                          isBuyWithOpened ? "block" : "hidden"
+                        } absolute z-20 rounded-md top-[53px] left-0 w-[182px] bg-[#0D0B33]`}
                       >
-                        <div className="m-auto w-[38px] h-[38px]">
-                          <img
-                            src="images/ETH.png"
-                            className="w-[38px] h-[38px]"
-                          />
-                        </div>
-                        <p className="pl-[10px] my-auto w-[144px] font-poppins text-white text-[16px]">
-                          Ethereum
+                        <p className="text-white ml-[20px] font-poppins text-[16px]">
+                          Buy with
                         </p>
-                      </div>
-                      <div
-                        onClick={() => handleBuyWithSelected("USDT")}
-                        className="cursor-pointer flex text-lef"
-                      >
-                        <div className="m-auto w-[27px] h-[27px]">
-                          <img
-                            src="images/USDT.png"
-                            className="w-[27px] h-[27px]"
-                          />
+                        <div
+                          onClick={() => handleBuyWithSelected("BSC")}
+                          className={`${
+                            connectedNetworkName === "ETHEREUM"
+                              ? "hidden"
+                              : "block"
+                          } cursor-pointer flex text-lef`}
+                        >
+                          <div className="m-auto w-[38px] h-[38px]">
+                            <img
+                              src="images/BSC.png"
+                              className="w-[38px] h-[38px]"
+                            />
+                          </div>
+                          <p className="pl-[10px] my-auto w-[144px] font-poppins text-white text-[16px]">
+                            Binance Token
+                          </p>
                         </div>
-                        <p className="pl-[10px] my-auto w-[144px] font-poppins text-white text-[16px]">
-                          USDT
-                        </p>
+                        <div
+                          onClick={() => handleBuyWithSelected("ETH")}
+                          className={`${
+                            connectedNetworkName === "BINANCE"
+                              ? "hidden"
+                              : "block"
+                          } cursor-pointer flex text-lef`}
+                        >
+                          <div className="m-auto w-[38px] h-[38px]">
+                            <img
+                              src="images/ETH.png"
+                              className="w-[38px] h-[38px]"
+                            />
+                          </div>
+                          <p className="pl-[10px] my-auto w-[144px] font-poppins text-white text-[16px]">
+                            Ethereum
+                          </p>
+                        </div>
+                        <div
+                          onClick={() => handleBuyWithSelected("USDT")}
+                          className="cursor-pointer flex text-lef"
+                        >
+                          <div className="m-auto w-[27px] h-[27px]">
+                            <img
+                              src="images/USDT.png"
+                              className="w-[27px] h-[27px]"
+                            />
+                          </div>
+                          <p className="pl-[10px] my-auto w-[144px] font-poppins text-white text-[16px]">
+                            USDT
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-between w-[182px] h-[53px] rounded-[8px] bg-[#0D0B33]">
-                    <input
-                      type="text"
-                      value={receiveAmount.toString()}
-                      readOnly={true}
-                      className="text-[#F7A039] bg-transparent outline-none w-[115px]  pl-3 font-poppins text-[20px]"
-                    />
-
-                    <div className="m-auto">
-                      <img
-                        src="images/palmshiba_icon.png"
-                        className="w-[50px]"
+                  <div className="">
+                    <p className="font-shareTech text-white text-[20px]">
+                      PALMSHIBA you receive
+                    </p>
+                    <div className="flex justify-between w-[182px] h-[53px] rounded-[8px] bg-[#0D0B33]">
+                      <input
+                        type="text"
+                        value={receiveAmount.toString()}
+                        readOnly={true}
+                        className="text-[#F7A039] bg-transparent outline-none w-[115px]  pl-3 font-poppins text-[20px]"
                       />
+
+                      <div className="m-auto">
+                        <img
+                          src="images/palmshiba_icon.png"
+                          className="w-[50px]"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
