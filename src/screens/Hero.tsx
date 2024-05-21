@@ -305,14 +305,14 @@ const Hero = () => {
       return Number(buyAmount) < Number(balance.data?.value) ? (
         <button
           onClick={() => handleBuyTokens()}
-          className="bg-[rgb(13,11,51)] h-[53px] tracking-wider font-shareTech text-[20px] w-full rounded-lg font-normal text-white"
+          className=" bg-[#0D0B33] h-[53px] tracking-wider font-shareTech mx-auto sm:mx-0 text-[20px] w-[90%] sm:w-full rounded-lg font-normal text-white"
         >
           Buy Now
         </button>
       ) : (
         <button
           disabled
-          className="bg-gray-900 h-[53px] tracking-wider font-shareTech text-[20px] w-full rounded-lg font-normal text-white"
+          className="bg-gray-900 h-[53px] tracking-wider font-shareTech mx-auto sm:mx-0 text-[20px] w-[90%] sm:w-full rounded-lg font-normal text-white"
         >
           Insufficient Amount
         </button>

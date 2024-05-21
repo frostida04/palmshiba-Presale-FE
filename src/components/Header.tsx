@@ -27,7 +27,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-999  h-32 sm:h-auto w-full py-4 px-[80px] bg-[#04011C] shadow-lg transition duration-100 rounded-sm`}
+      className={`fixed left-0 top-0 z-999  h-32 md:h-auto w-full py-4 px-[80px] bg-[#04011C] shadow-lg transition duration-100 rounded-sm`}
       data-aos="fade-down"
     >
       <div className="max-w-full justify-between lg:justify-normal lg:items-center flex">
@@ -76,7 +76,7 @@ const Header = () => {
         <div
           className={`${
             isOpen ? "block" : "hidden"
-          } absolute right-0  bg-[#04011C]  drop-shadow-[2px_3px_3px_rgba(255,255,255,0.55)] z-9999 top-32 lg:hidden   w-[100%]  py-5 text-center }`}
+          } absolute right-0  bg-[#04011C]  drop-shadow-[2px_3px_3px_rgba(255,255,255,0.55)] z-9999 top-32 md:top-25 lg:hidden   w-[100%]  py-5 text-center }`}
         >
           <nav>
             <ul className="items-centerjustify-center  gap-10">
