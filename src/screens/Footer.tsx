@@ -43,7 +43,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="relative mt-[300px] lg:mt-[100px] mb-[150px] w-full h-[95px] border-t-2 border-t-white border-opacity-20">
-        <p className="text-white text-[20px] font-helvetica absolute bottom-0">
+        <p className="text-white text-[20px] font-helvetica absolute left-5 sm:left-15 md:left-20 lg:left-0 bottom-0">
           Copyright © 2024 PALMSHIBA. All Rights Reserved
         </p>
         <img

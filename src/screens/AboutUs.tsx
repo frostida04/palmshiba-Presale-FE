@@ -9,23 +9,23 @@ const AboutUs = () => {
         ABOUT US
       </h2>
       <div className="grid md:flex justify-between w-full">
-        <div className="mx-auto w-[370px] h-[370px] relative">
+        <div className="mx-auto w-[250px] h-[250px] sm:w-[370px] sm:h-[370px] relative">
           <img
             src="images/leaves.png"
-            className="absolute bottom-[30%] left-[5%]"
+            className="absolute bottom-[10%] left-[5%] sm:bottom-[30%] sm:left-[5%]"
             alt="leaves image"
           />
           <img src="images/shiba.png " className="absolute" alt="shiba image" />
         </div>
-        <div className="md:w-[50%]">
-          <h3 className="font-holtwood relative mb-[30px] text-white text-[40px] text-left">
+        <div className="md:w-[50%] min-w-[375px]">
+          <h3 className="font-holtwood relative mb-[30px] text-white text-[30px] sm:text-[40px] text-left">
             MEET PALMSHIBA
             <img
               src="images/palm_tree_2.png"
               className="absolute w-[112px] h-[130px] -top-15 right-0"
             />
           </h3>
-          <div className="text-white text-justify font-helvetica text-[24px]">
+          <div className="text-white text-justify font-helvetica text-[20px] sm:text-[24px]">
             Palmshiba is more than a mascot; it's the heart of Palmshiba. A
             symbol of playfulness and loyalty, Palmshiba is a community-driven
             crypto adventure. Dive into a world where memes meet finance, and

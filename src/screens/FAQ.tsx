@@ -4,7 +4,7 @@ const FAQ = () => {
   return (
     <section
       id="faq"
-      className="gird lg:flex justify-between mt-[150px] md:px-20 z-10"
+      className="gird lg:flex justify-between mt-[150px] px-7 sm:px-20 z-10"
       data-aos="flip-down"
     >
       <div className="grid sm:flex lg:grid">

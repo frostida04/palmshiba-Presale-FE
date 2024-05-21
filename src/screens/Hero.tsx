@@ -321,7 +321,7 @@ const Hero = () => {
       return (
         <button
           onClick={() => open()}
-          className="bg-[#0D0B33] h-[53px] tracking-wider font-shareTech text-[20px] w-full rounded-lg font-normal text-white"
+          className="bg-[#0D0B33] h-[53px] tracking-wider font-shareTech mx-auto sm:mx-0 text-[20px] w-[90%] sm:w-full rounded-lg font-normal text-white"
         >
           Connect Wallet
         </button>
@@ -371,9 +371,9 @@ const Hero = () => {
 
   return (
     <section className="mt-[150px] lg:mt-[50px]">
-      <div className="flex justify-between md:px-20 lg:pt-[10%]">
+      <div className="flex justify-between px-4 sm:px-15 md:px-20 lg:pt-[10%]">
         <Grid
-          className="z-1 bg-[#141746] sm:w-full  md:w-[600px] w-full md:m-auto lg:m-0 rounded-[45px] border-[9px] border-[#1B0C3D] justify-center items-center"
+          className="z-1 bg-[#141746] sm:w-full  lg:w-[600px] w-full md:m-auto lg:m-0 rounded-[45px] border-[9px] border-[#1B0C3D] justify-center items-center"
           // data-aos-easing="ease-in"
           // data-aos="flip-up"
         >
@@ -414,12 +414,12 @@ const Hero = () => {
                   </p>
                   <div className="sm:block hidden w-[125px] border my-auto border-white"></div>
                 </div>
-                <div className="mt-7 sm:mt-0 sm:px-0 px-[10%] grid sm:flex justify-between">
-                  <div className="">
+                <div className="mt-7 sm:mt-0 grid sm:flex sm:justify-between">
+                  <div className="text-center sm:text-left">
                     <p className="font-shareTech  text-white text-[20px]">
                       Amount you pay
                     </p>
-                    <div className="relative flex justify-between  w-[182px] h-[53px] rounded-[8px] bg-[#0D0B33]">
+                    <div className="relative flex justify-between mx-auto sm:mx-0 w-[90%] sm:w-[182px] h-[53px] rounded-[8px] bg-[#0D0B33]">
                       <div className="m-auto">
                         <input
                           type="text"
@@ -443,9 +443,9 @@ const Hero = () => {
                       <div
                         className={`${
                           isBuyWithOpened ? "block" : "hidden"
-                        } absolute z-20 rounded-md top-[53px] left-0 w-[182px] bg-[#0D0B33]`}
+                        } absolute z-20 rounded-md top-[53px] left-0 w-[100%] sm:w-[182px] bg-[#0D0B33] drop-shadow-[2px_3px_3px_rgba(255,255,255,0.55)]`}
                       >
-                        <p className="text-white ml-[20px] font-poppins text-[16px]">
+                        <p className="text-white ml-[20px] font-poppins text-[20px]">
                           Buy with
                         </p>
                         <div
@@ -454,7 +454,7 @@ const Hero = () => {
                             connectedNetworkName === "ETHEREUM"
                               ? "hidden"
                               : "block"
-                          } cursor-pointer flex text-lef`}
+                          } cursor-pointer flex text-left`}
                         >
                           <div className="m-auto w-[38px] h-[38px]">
                             <img
@@ -472,7 +472,7 @@ const Hero = () => {
                             connectedNetworkName === "BINANCE"
                               ? "hidden"
                               : "block"
-                          } cursor-pointer flex text-lef`}
+                          } cursor-pointer flex text-left`}
                         >
                           <div className="m-auto w-[38px] h-[38px]">
                             <img
@@ -486,12 +486,12 @@ const Hero = () => {
                         </div>
                         <div
                           onClick={() => handleBuyWithSelected("USDT")}
-                          className="cursor-pointer flex text-lef"
+                          className="cursor-pointer flex text-left"
                         >
-                          <div className="m-auto w-[27px] h-[27px]">
+                          <div className="m-auto w-[38px] h-[38px]">
                             <img
                               src="images/USDT.png"
-                              className="w-[27px] h-[27px]"
+                              className="w-[37px] h-[37px]"
                             />
                           </div>
                           <p className="pl-[10px] my-auto w-[144px] font-poppins text-white text-[16px]">
@@ -501,17 +501,19 @@ const Hero = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-3 sm:mt-0">
+                  <div className="mt-3 sm:mt-0 text-center sm:text-left">
                     <p className="font-shareTech text-white text-[20px]">
                       PALMSHIBA you receive
                     </p>
-                    <div className="flex justify-between w-[182px] h-[53px] rounded-[8px] bg-[#0D0B33]">
-                      <input
-                        type="text"
-                        value={receiveAmount.toString()}
-                        readOnly={true}
-                        className="text-[#F7A039] bg-transparent outline-none w-[115px]  pl-3 font-poppins text-[20px]"
-                      />
+                    <div className="flex justify-between mx-auto sm:mx-0 w-[90%] sm:w-[182px] h-[53px] rounded-[8px] bg-[#0D0B33]">
+                      <div className="m-auto">
+                        <input
+                          type="text"
+                          value={receiveAmount.toString()}
+                          readOnly={true}
+                          className="text-[#F7A039] bg-transparent outline-none w-[115px]  pl-3 font-poppins text-[20px]"
+                        />
+                      </div>
 
                       <div className="m-auto">
                         <img
@@ -527,7 +529,7 @@ const Hero = () => {
 
             {dispCoreButton()}
 
-            <button className="bg-[#0D0B33] h-[53px] tracking-wider  font-shareTech text-[20px] w-full rounded-lg font-normal text-white">
+            <button className="bg-[#0D0B33] h-[53px] tracking-wider mx-auto sm:mx-0 font-shareTech text-[20px] w-[90%] sm:w-full rounded-lg font-normal text-white">
               How to buy
             </button>
           </Grid>

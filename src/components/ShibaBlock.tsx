@@ -1,7 +1,7 @@
 const ShibaBlock = () => {
   return (
     <div
-      className="relative container right-[50px] w-[600px] h-[500px] hidden lg:block"
+      className="relative right-[50px] w-[600px] h-[500px] hidden lg:block"
       data-aos="fade-left"
     >
       <div className="w-[370px] right-0 h-[370px] bg-[#1B0C3D] rounded-full absolute">

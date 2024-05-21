@@ -5,7 +5,7 @@ const Staking = () => {
       className="mt-[200px] px-20 relative z-10"
       data-aos="zoom-in-up"
     >
-      <div className="w-[42%] h-full absolute left-[50%] top-[50%]">
+      <div className="w-[333px] md:w-[555px] h-full absolute left-[50%] top-[50%]">
         <img
           src="images/shiba_footprintf_filled.png"
           className="relative w-full h-[160%]  opacity-10 -left-[50%] block -top-[82%]"
