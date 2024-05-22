@@ -19,27 +19,28 @@ const Footer = () => {
         </div>
       </div>
       <div className="gird md:flex mx-auto mt-[30px]">
-        <div className="md:my-0 my-[20px]">
-          <button className="mx-[20px] w-[125.89px] text-white text-[72px] font-bold bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
+        <div className="md:my-0 my-[20px] flex flex-row ">
+          <a target = "_blank" href = "https://facebook.com" className="block text-center mx-[20px] w-[125.89px] text-white text-[72px] font-bold bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
             f
-          </button>
-          <button className="mx-[20px] w-[125.89px] text-white text-[72px] font-bold bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
+          </a>
+          <a target = "_blank"  href = "https://instagram.com" className="block text-center mx-[20px] w-[125.89px] text-white text-[72px] font-bold bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
             in
-          </button>
+          </a>
         </div>
         <div className="flex md:mt-0 mt-[20px]">
-          <div className="w-[125.89px] cursor-pointer  mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
+          <a target = "_blank"  href = "https://twitter.com/palmshiba " className="text-center w-[125.89px] cursor-pointer  mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07] flex flex-row items-center justify-center">
             <img
-              src="images/touch_1.PNG"
-              className="w-[70%] mt-[30px] mx-auto"
+              src="images/twitter.png"
+              className="w-[50%]"
             />
-          </div>
-          <div className="w-[125.89px] mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
+          </a>
+          <a target = "_blank"  href = "https://t.me/palmshiba" className="text-center w-[125.89px] mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07] flex flex-row items-center justify-center hover:cursor-pointer">
             <img
-              src="images/touch_2.PNG"
-              className="w-[70%] mt-[30px] mx-auto"
+              src="images/telegram.png"
+              className="w-[50%]"
+
             />
-          </div>
+          </a>
         </div>
       </div>
       <div className="relative mt-[300px] lg:mt-[100px] mb-[150px] w-full h-[95px] border-t-2 border-t-white border-opacity-20">

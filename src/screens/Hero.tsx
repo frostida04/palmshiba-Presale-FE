@@ -8,28 +8,29 @@ import { toast } from "react-toastify";
 import Notification from "../components/Notification";
 
 import { ToastContainer } from "react-toastify";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount, useBalance, useWriteContract } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Web3 from "web3";
 import { ethers } from "ethers";
+import { parseEther as viemParseEther } from "viem";
 
 ///////////////      RPC URLs     ///////////////
 const ETHEREUM_RPC_URL = "wss://ethereum-rpc.publicnode.com";
 const BINANCE_RPC_URL = "https://bsc-rpc.publicnode.com";
 
 /////////////// Token contract constants   ///////////////////////
-import BINANCE_TOKEN_CONTRACT_ABI from "../utils/binanceABI.json";
-import ETHEREUM_TOKEN_CONTRACT_ABI from "../utils/ethereumABI.json";
+import ETHEREUM_PRESALE_CONTRACT_ABI from "../utils/ethereumABI.json";
+import BINANCE_PRESALE_CONTRACT_ABI from "../utils/binanceABI.json";
 
 // const BINANCE_TOKEN_CONTRACT_ADDRESS = "0xF6a43c94C28cb98f06D86F174b3A7d337c4A3436"; //Test
-const ETHEREUM_TOKEN_CONTRACT_ADDRESS =
+const ETHEREUM_PRESALE_CONTRACT_ADDRESS =
   "0xBA0029C20FDF1b2dD1Cb5c6aF51E1dEa3D5ae8A1";
-const BINANCE_TOKEN_CONTRACT_ADDRESS =
+const BINANCE_PRESALE_CONTRACT_ADDRESS =
   "0xb222719234E8F63cf067Cdc00b2024E0f61431D2"; //REAL
 
 //USDT token address
-const USDT_ADDRESS_ON_ETHEREUM = "0xdac17f958d2ee523a2206206994597c13d831ec7";
-const USDT_ADDRESS_ON_BINANCE = "0x55d398326f99059ff775485246999027b3197955";
+const USDT_ADDRESS_ON_ETHEREUM = "0xBA0029C20FDF1b2dD1Cb5c6aF51E1dEa3D5ae8A1";
+const USDT_ADDRESS_ON_BINANCE = "0xb222719234E8F63cf067Cdc00b2024E0f61431D2";
 
 const Hero = () => {
   /////////////// State & variables       ////////////////////////////
@@ -51,10 +52,32 @@ const Hero = () => {
   const [hoursRemained, setHoursRemained] = useState<Number>(0);
   const [minutesRemained, setMinutesRemained] = useState<Number>(0);
   const [secondsRemained, setSecondRemained] = useState<Number>(0);
+  const [contract, setContract] = useState<any>();
 
   ///////////////  hook                   /////////////////////////////
   const { open } = useWeb3Modal();
   const { address, isConnected, chainId } = useAccount();
+
+  const { writeContractAsync } = useWriteContract();
+
+  // set contract
+  useEffect(() => {
+    if (!(chainId === 1 || chainId === 56)) return;
+    if (!web3) return;
+    let temp_contract;
+    if (chainId === 1)
+      temp_contract = new web3.eth.Contract(
+        ETHEREUM_PRESALE_CONTRACT_ABI,
+        ETHEREUM_PRESALE_CONTRACT_ADDRESS
+      );
+    else if (chainId === 56)
+      temp_contract = new web3.eth.Contract(
+        BINANCE_PRESALE_CONTRACT_ABI,
+        BINANCE_PRESALE_CONTRACT_ADDRESS
+      );
+    setContract(temp_contract);
+  }, [chainId, web3]);
+
   const balance = useBalance({
     address: address,
   });
@@ -74,11 +97,11 @@ const Hero = () => {
   };
 
   const getETHPrice = async () => {
-    if (web3 === null || web3 === undefined) return -1;
+
     try {
       const uniswapPairAddress = "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852";
       // Connect to Ethereum
-      const provider = new ethers.WebSocketProvider(ETHEREUM_RPC_URL);
+      const provider = new ethers.WebSocketProvider("wss://ethereum-rpc.publicnode.com");
 
       // Load Uniswap's ETH/USDT pair contract
       const uniswapPairContract = new ethers.Contract(
@@ -103,29 +126,23 @@ const Hero = () => {
   };
 
   const getBNBPrice = async () => {
-    if (web3 === null || web3 === undefined) return -1;
-    try {
-      const uniswapPairAddress = "0x1b96b92314c44b159149f7e0303511fb2fc4774f";
-      // Connect to Ethereum
-      const provider = new ethers.WebSocketProvider(BINANCE_RPC_URL);
 
-      // Load Uniswap's ETH/USDT pair contract
+    try {
+      const pancakeswapv2routeraddress = "0x10ED43C718714eb63d5aA57B78B54704E256024E";
+      const provider = new ethers.WebSocketProvider("wss://bsc-rpc.publicnode.com");
       const uniswapPairContract = new ethers.Contract(
-        uniswapPairAddress,
+        pancakeswapv2routeraddress,
         [
-          "function getReserves() view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)",
+          "function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts)"
         ],
         provider
       );
 
-      // Get reserves (in this case, ETH and USDT reserves)
-      const reserves = await uniswapPairContract.getReserves();
-      const reserveBNB = reserves.reserve0;
-      const reserveUSDT = reserves.reserve1;
 
-      // Calculate ETH price in terms of USDT
-      const bnbPriceInUSDT = (reserveUSDT * BigInt(10 ** 6)) / reserveBNB;
-      setBnbPrice(Number(bnbPriceInUSDT) / 10 ** 6);
+      const amounts = await uniswapPairContract.getAmountsOut(BigInt(10 ** 18), ["0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x55d398326f99059fF775485246999027B3197955"]);
+      const _bnbprice = Number(amounts[1]) / Number(10 ** 18);
+      setBnbPrice(Math.floor(_bnbprice * 10 ** 4) / (10 ** 4));
+
     } catch (err) {
       console.log(err);
     }
@@ -140,18 +157,6 @@ const Hero = () => {
       setReceiveAmount(0.0);
       return;
     }
-    let contract;
-    if (chainId === 1)
-      contract = new web3.eth.Contract(
-        ETHEREUM_TOKEN_CONTRACT_ABI,
-        ETHEREUM_TOKEN_CONTRACT_ADDRESS
-      );
-    else if (chainId === 56)
-      contract = new web3.eth.Contract(
-        BINANCE_TOKEN_CONTRACT_ABI,
-        BINANCE_TOKEN_CONTRACT_ADDRESS
-      );
-
     const tmpTotalCap = await contract?.methods.totalCap().call();
     setTotalCap(Number(tmpTotalCap));
     let price;
@@ -186,63 +191,43 @@ const Hero = () => {
       setReceiveAmount(0.0);
       return;
     }
-    let contract;
-    if (chainId === 1)
-      contract = new web3.eth.Contract(
-        ETHEREUM_TOKEN_CONTRACT_ABI,
-        ETHEREUM_TOKEN_CONTRACT_ADDRESS
-      );
-    else if (chainId === 56)
-      contract = new web3.eth.Contract(
-        BINANCE_TOKEN_CONTRACT_ABI,
-        BINANCE_TOKEN_CONTRACT_ADDRESS
-      );
-    tmpBuyAmount = tmpBuyAmount * 10 ** 18;
 
     switch (selectedBuyMethod) {
       case "BSC":
-        contract?.methods
-          .buyTokenWithBNB()
-          .send({
-            from: address,
-            value: tmpBuyAmount.toString(),
-          })
-          .on("transactionHash", function (hash) {
-            toast(
-              <Notification
-                type={"success"}
-                msg={`Successfully Purchased.\n ${hash}`}
-              />
-            );
-          })
-          .on("error", function (error) {
-            toast(<Notification type={"fails"} msg={`${error}`} />);
-          });
-
-        break;
-      case "ETH":
         try {
-          const gasEstimate = await contract?.methods
-            .buyTokenWithETH()
-            .estimateGas({ from: address, value: tmpBuyAmount.toString() });
-          const txData = contract?.methods.buyTokenWithETH().encodeABI();
-          const tx = {
-            from: address,
-            value: tmpBuyAmount,
-            gas: gasEstimate,
-            data: txData,
-          };
-          const txHash = await web3.eth.sendTransaction(tx);
+          let hash = await writeContractAsync({
+            abi: BINANCE_PRESALE_CONTRACT_ABI,
+            address: BINANCE_PRESALE_CONTRACT_ADDRESS,
+            functionName: 'buyTokenWithBNB',
+            value: viemParseEther(tmpBuyAmount.toString())
+          });
           toast(
             <Notification
               type={"success"}
-              msg={`Successfully Purchased.\n ${txHash}`}
+              msg={`Successfully Purchased.\n ${hash}`}
             />
           );
-        } catch (err) {
-          toast(<Notification type={"fails"} msg={`${err}`} />);
+        } catch (error: any) {
+          toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
         }
-
+        break;
+      case "ETH":
+        try {
+          let hash = await writeContractAsync({
+            abi: ETHEREUM_PRESALE_CONTRACT_ABI,
+            address: ETHEREUM_PRESALE_CONTRACT_ADDRESS,
+            functionName: 'buyTokenWithETH',
+            value: viemParseEther(tmpBuyAmount.toString())
+          });
+          toast(
+            <Notification
+              type={"success"}
+              msg={`Successfully Purchased.\n ${hash}`}
+            />
+          );
+        } catch (error: any) {
+          toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
+        }
         break;
       case "USDT":
         contract?.methods
@@ -250,7 +235,7 @@ const Hero = () => {
             _usdtAmount: parseFloat(buyAmount),
           })
           .send({ from: address })
-          .on("transactionHash", function (hash) {
+          .on("transactionHash", function (hash: any) {
             toast(
               <Notification
                 type={"success"}
@@ -258,7 +243,7 @@ const Hero = () => {
               />
             );
           })
-          .on("error", function (error) {
+          .on("error", function (error: any) {
             toast(<Notification type={"fails"} msg={`${error}`} />);
           });
         break;
@@ -268,17 +253,6 @@ const Hero = () => {
   const getPresaleStatus = async () => {
     if (!isConnected || (chainId !== 1 && chainId !== 56) || web3 === null)
       return;
-    let contract;
-    if (chainId === 1)
-      contract = new web3.eth.Contract(
-        ETHEREUM_TOKEN_CONTRACT_ABI,
-        ETHEREUM_TOKEN_CONTRACT_ADDRESS
-      );
-    else if (chainId === 56)
-      contract = new web3.eth.Contract(
-        BINANCE_TOKEN_CONTRACT_ABI,
-        BINANCE_TOKEN_CONTRACT_ADDRESS
-      );
     const tmpStarted = await contract?.methods.presaleStarted().call();
     setHasPresaleStarted(Boolean(tmpStarted));
     if (!tmpStarted) {
@@ -315,11 +289,12 @@ const Hero = () => {
     setIsBuyWithOpened(!isBuyWithOpened);
   };
 
-  const handleBuyAmountChanged = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setBuyAmount(e.target.value);
-    calcReceiveAmount();
+  //input amount change
+  const handleBuyAmountChanged = (e: any) => {
+    if (e.target.value === "")
+      setBuyAmount("0");
+    else
+      setBuyAmount(e.target.value);
   };
 
   const handleBuyTokens = () => {
@@ -383,17 +358,22 @@ const Hero = () => {
   };
 
   useEffect(() => {
+    if (ethPrice === 0.0)
+      getETHPrice();
+    if (bnbPrice === 0.0)
+      getBNBPrice();
+  }, []);
+
+  useEffect(() => {
     if (!isConnected) return;
     if (chainId === 1) {
       setConnectedNetworkName("ETHEREUM");
       setWeb3(new Web3(ETHEREUM_RPC_URL));
       setSelectedBuyMethod("ETH");
-      getETHPrice();
     } else if (chainId === 56) {
       setConnectedNetworkName("BINANCE");
       setWeb3(new Web3(BINANCE_RPC_URL));
       setSelectedBuyMethod("BSC");
-      getBNBPrice();
     }
     setBuyAmount("0.0");
     setReceiveAmount(0.0);
@@ -413,8 +393,8 @@ const Hero = () => {
       <div className="flex justify-between px-4 sm:px-15 md:px-20 lg:pt-[10%]">
         <Grid
           className="z-1 bg-[#141746] sm:w-full  lg:w-[600px] w-full md:m-auto lg:m-0 rounded-[45px] border-[9px] border-[#1B0C3D] justify-center items-center"
-          // data-aos-easing="ease-in"
-          // data-aos="flip-up"
+        // data-aos-easing="ease-in"
+        // data-aos="flip-up"
         >
           <Grid className=" shadow-md gap-6 py-8">
             <Grid className="items-center gap-4 px-4">
@@ -480,20 +460,18 @@ const Hero = () => {
                         </div>
                       </div>
                       <div
-                        className={`${
-                          isBuyWithOpened ? "block" : "hidden"
-                        } absolute z-20 rounded-md top-[53px] left-0 w-[100%] sm:w-[182px] bg-[#0D0B33] drop-shadow-[2px_3px_3px_rgba(255,255,255,0.55)]`}
+                        className={`${isBuyWithOpened ? "block" : "hidden"
+                          } absolute z-20 rounded-md top-[53px] left-0 w-[100%] sm:w-[182px] bg-[#0D0B33] drop-shadow-[2px_3px_3px_rgba(255,255,255,0.55)]`}
                       >
                         <p className="text-white ml-[20px] font-poppins text-[20px]">
                           Buy with
                         </p>
                         <div
                           onClick={() => handleBuyWithSelected("BSC")}
-                          className={`${
-                            connectedNetworkName === "ETHEREUM"
-                              ? "hidden"
-                              : "block"
-                          } cursor-pointer flex text-left`}
+                          className={`${connectedNetworkName === "ETHEREUM"
+                            ? "hidden"
+                            : "block"
+                            } cursor-pointer flex text-left`}
                         >
                           <div className="m-auto w-[38px] h-[38px]">
                             <img
@@ -507,11 +485,10 @@ const Hero = () => {
                         </div>
                         <div
                           onClick={() => handleBuyWithSelected("ETH")}
-                          className={`${
-                            connectedNetworkName === "BINANCE"
-                              ? "hidden"
-                              : "block"
-                          } cursor-pointer flex text-left`}
+                          className={`${connectedNetworkName === "BINANCE"
+                            ? "hidden"
+                            : "block"
+                            } cursor-pointer flex text-left`}
                         >
                           <div className="m-auto w-[38px] h-[38px]">
                             <img
