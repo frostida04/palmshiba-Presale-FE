@@ -21,6 +21,8 @@ const BINANCE_RPC_URL = "https://bsc-rpc.publicnode.com";
 /////////////// Token contract constants   ///////////////////////
 import ETHEREUM_PRESALE_CONTRACT_ABI from "../utils/ethereumABI.json";
 import BINANCE_PRESALE_CONTRACT_ABI from "../utils/binanceABI.json";
+import ETHEREUM_USDT_CONTRACT_ABI from "../utils/erc20.json";
+import BINANCE_USDT_CONTRACT_ABI from "../utils/bep20.json";
 
 // const BINANCE_TOKEN_CONTRACT_ADDRESS = "0xF6a43c94C28cb98f06D86F174b3A7d337c4A3436"; //Test
 const ETHEREUM_PRESALE_CONTRACT_ADDRESS =
@@ -29,8 +31,8 @@ const BINANCE_PRESALE_CONTRACT_ADDRESS =
   "0xb222719234E8F63cf067Cdc00b2024E0f61431D2"; //REAL
 
 //USDT token address
-const USDT_ADDRESS_ON_ETHEREUM = "0xBA0029C20FDF1b2dD1Cb5c6aF51E1dEa3D5ae8A1";
-const USDT_ADDRESS_ON_BINANCE = "0xb222719234E8F63cf067Cdc00b2024E0f61431D2";
+const USDT_ADDRESS_ON_ETHEREUM = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
+const USDT_ADDRESS_ON_BINANCE = "0x55d398326f99059fF775485246999027B3197955";
 
 const Hero = () => {
   /////////////// State & variables       ////////////////////////////
@@ -59,6 +61,7 @@ const Hero = () => {
   const { address, isConnected, chainId } = useAccount();
 
   const { writeContractAsync } = useWriteContract();
+
 
   // set contract
   useEffect(() => {
@@ -191,7 +194,7 @@ const Hero = () => {
       setReceiveAmount(0.0);
       return;
     }
-
+    console.log("//////////////////" , tmpBuyAmount);
     switch (selectedBuyMethod) {
       case "BSC":
         try {
@@ -230,22 +233,111 @@ const Hero = () => {
         }
         break;
       case "USDT":
-        contract?.methods
-          .buyTokenWithUSDT({
-            _usdtAmount: parseFloat(buyAmount),
-          })
-          .send({ from: address })
-          .on("transactionHash", function (hash: any) {
+        if (chainId === 1) {
+          let approved:any = false;
+          // Approve
+          try {
+            await writeContractAsync({
+              abi: ETHEREUM_USDT_CONTRACT_ABI,
+              address: USDT_ADDRESS_ON_ETHEREUM,
+              functionName: 'approve',
+              args: [
+                ETHEREUM_PRESALE_CONTRACT_ADDRESS , 
+                tmpBuyAmount * (10 ** 6)
+              ]
+            });
+            approved = true;
+            // toast(
+            //   <Notification
+            //     type={"success"}
+            //     msg={`Successfully Purchased.\n ${hash}`}
+            //   />
+            // );
+          } catch (error: any) {
+            toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
+          }
+          if(!approved) break ;
+          try {
+            let hash = await writeContractAsync({
+              abi: ETHEREUM_PRESALE_CONTRACT_ABI,
+              address: ETHEREUM_PRESALE_CONTRACT_ADDRESS,
+              functionName: 'buyTokenWithUSDT',
+              args: [
+                tmpBuyAmount * (10 ** 6)
+              ]
+            });
             toast(
               <Notification
                 type={"success"}
                 msg={`Successfully Purchased.\n ${hash}`}
               />
             );
-          })
-          .on("error", function (error: any) {
-            toast(<Notification type={"fails"} msg={`${error}`} />);
-          });
+          } catch (error: any) {
+            toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
+          }
+        }
+        
+        if (chainId === 56) {
+          
+          let approved:any = false;
+          // Approve
+          try {
+            await writeContractAsync({
+              abi: BINANCE_USDT_CONTRACT_ABI,
+              address: USDT_ADDRESS_ON_BINANCE,
+              functionName: 'approve',
+              args: [
+                BINANCE_PRESALE_CONTRACT_ADDRESS , 
+                tmpBuyAmount * (10 ** 18)
+              ]
+            });
+            approved = true;
+            // toast(
+            //   <Notification
+            //     type={"success"}
+            //     msg={`Successfully Purchased.\n ${hash}`}
+            //   />
+            // );
+          } catch (error: any) {
+            toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
+          }
+          if(!approved) break ;
+
+          try {
+            let hash = await writeContractAsync({
+              abi: BINANCE_PRESALE_CONTRACT_ABI,
+              address: BINANCE_PRESALE_CONTRACT_ADDRESS,
+              functionName: 'buyTokenWithUSDT',
+              args: [
+                tmpBuyAmount * (10 ** 18)
+              ]
+            });
+            toast(
+              <Notification
+                type={"success"}
+                msg={`Successfully Purchased.\n ${hash}`}
+              />
+            );
+          } catch (error: any) {
+            toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
+          }
+        }
+        // contract?.methods
+        //   .buyTokenWithUSDT({
+        //     _usdtAmount: parseFloat(buyAmount),
+        //   })
+        //   .send({ from: address })
+        //   .on("transactionHash", function (hash: any) {
+        //     toast(
+        //       <Notification
+        //         type={"success"}
+        //         msg={`Successfully Purchased.\n ${hash}`}
+        //       />
+        //     );
+        //   })
+        //   .on("error", function (error: any) {
+        //     toast(<Notification type={"fails"} msg={`${error}`} />);
+        //   });
         break;
     }
   };
