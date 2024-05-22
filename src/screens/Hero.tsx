@@ -203,23 +203,6 @@ const Hero = () => {
       case "BSC":
         contract?.methods
           .buyTokenWithBNB()
-          .send({ from: address, value: tmpBuyAmount.toString() })
-          .on("transactionHash", function (hash) {
-            toast(
-              <Notification
-                type={"success"}
-                msg={`Successfully Purchased.\n ${hash}`}
-              />
-            );
-          })
-          .on("error", function (error) {
-            toast(<Notification type={"fails"} msg={`${error}`} />);
-          });
-
-        break;
-      case "ETH":
-        contract?.methods
-          .buyTokenWithETH()
           .send({
             from: address,
             value: tmpBuyAmount.toString(),
@@ -235,6 +218,31 @@ const Hero = () => {
           .on("error", function (error) {
             toast(<Notification type={"fails"} msg={`${error}`} />);
           });
+
+        break;
+      case "ETH":
+        try {
+          const gasEstimate = await contract?.methods
+            .buyTokenWithETH()
+            .estimateGas({ from: address, value: tmpBuyAmount.toString() });
+          const txData = contract?.methods.buyTokenWithETH().encodeABI();
+          const tx = {
+            from: address,
+            value: tmpBuyAmount,
+            gas: gasEstimate,
+            data: txData,
+          };
+          const txHash = await web3.eth.sendTransaction(tx);
+          toast(
+            <Notification
+              type={"success"}
+              msg={`Successfully Purchased.\n ${txHash}`}
+            />
+          );
+        } catch (err) {
+          toast(<Notification type={"fails"} msg={`${err}`} />);
+        }
+
         break;
       case "USDT":
         contract?.methods
@@ -560,7 +568,10 @@ const Hero = () => {
 
             {dispCoreButton()}
 
-            <button className="bg-[#0D0B33] h-[53px] tracking-wider mx-auto sm:mx-0 font-shareTech text-[20px] w-[90%] sm:w-full rounded-lg font-normal text-white">
+            <button
+              onClick={handleBuyTokens}
+              className="bg-[#0D0B33] h-[53px] tracking-wider mx-auto sm:mx-0 font-shareTech text-[20px] w-[90%] sm:w-full rounded-lg font-normal text-white"
+            >
               How to buy
             </button>
           </Grid>

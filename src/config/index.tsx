@@ -6,7 +6,7 @@ import { cookieStorage, createStorage } from "wagmi";
 import { bsc, mainnet } from "wagmi/chains";
 
 // Your WalletConnect Cloud project ID
-export const projectId = "c9c74ea16cc035d5a9d880eeb12028b7";
+export const projectId = "eae0f11f6c24655f92e4f531a15f5a7d";
 
 // Create a metadata object
 const metadata = {
