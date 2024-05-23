@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Notification from "../components/Notification";
 
 import { ToastContainer } from "react-toastify";
-import { useAccount, useBalance, useWriteContract } from "wagmi";
+import { useAccount, useBalance, useWriteContract, useReadContract } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Web3 from "web3";
 import { ethers } from "ethers";
@@ -26,13 +26,17 @@ import BINANCE_USDT_CONTRACT_ABI from "../utils/bep20.json";
 
 // const BINANCE_TOKEN_CONTRACT_ADDRESS = "0xF6a43c94C28cb98f06D86F174b3A7d337c4A3436"; //Test
 const ETHEREUM_PRESALE_CONTRACT_ADDRESS =
-  "0xBA0029C20FDF1b2dD1Cb5c6aF51E1dEa3D5ae8A1";
+  "0x10aa951fB435e21A85Ca2e3CF6819DaB4887c19A";
 const BINANCE_PRESALE_CONTRACT_ADDRESS =
-  "0xb222719234E8F63cf067Cdc00b2024E0f61431D2"; //REAL
+  "0x502D334EE743888B1680030A19C22b2934A24087"; //REAL
 
 //USDT token address
 const USDT_ADDRESS_ON_ETHEREUM = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 const USDT_ADDRESS_ON_BINANCE = "0x55d398326f99059fF775485246999027B3197955";
+
+//Pshiba token address
+// const PSHIBA_ADDRESS_ON_ETHEREUM = "0x5DFADeacc8239edBDa5598AEEd615d18F6825dE9";
+// const PSHIBA_ADDRESS_ON_BSC = "0x5DFADeacc8239edBDa5598AEEd615d18F6825dE9";
 
 const Hero = () => {
   /////////////// State & variables       ////////////////////////////
@@ -44,23 +48,63 @@ const Hero = () => {
     useState<string>("None");
 
   const [web3, setWeb3] = useState<Web3 | null>(null);
-  const [shibaPrice, setShibaPrice] = useState<Number>(0.0);
-  const [totalCap, setTotalCap] = useState<Number>(0.0);
-  const [ethPrice, setEthPrice] = useState<Number>(0.0);
-  const [bnbPrice, setBnbPrice] = useState<Number>(0.0);
   const [hasPresaleStarted, setHasPresaleStarted] = useState<Boolean>(false);
-  const [timeRemained, setTimeRemained] = useState<Number>(0);
   const [daysRemained, setDaysRemained] = useState<Number>(0);
   const [hoursRemained, setHoursRemained] = useState<Number>(0);
   const [minutesRemained, setMinutesRemained] = useState<Number>(0);
   const [secondsRemained, setSecondRemained] = useState<Number>(0);
-  const [contract, setContract] = useState<any>();
+  const [contract, setContract] = useState<any>(); 
 
-  ///////////////  hook                   /////////////////////////////
+  const [ethPrice, setEthPrice] = useState<Number>();
+  const [bnbPrice, setBnbPrice] = useState<Number>();
+  
   const { open } = useWeb3Modal();
   const { address, isConnected, chainId } = useAccount();
+  const balance = useBalance({
+    address: address,
+  });
+  const usdtBalance = useBalance({
+    address: address,
+    token:
+      connectedNetworkName === "ETHEREUM"
+        ? USDT_ADDRESS_ON_ETHEREUM
+        : USDT_ADDRESS_ON_BINANCE,
+    chainId
+  });
 
   const { writeContractAsync } = useWriteContract();
+
+  const {data: shibaPrice} = useReadContract({
+    abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
+    address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
+    functionName: 'getCurrentTokenPrice',
+    chainId
+  });
+  console.log("contract shiba price value", shibaPrice);
+  
+  const {data: claimAmount} = useReadContract({
+    abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
+    address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
+    functionName: 'getBalance',
+    account: address,
+    chainId
+  });
+  console.log("Buy Amount", shibaPrice);
+
+  const {data: timeRemained} = useReadContract({
+    abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
+    address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
+    functionName: 'calculateRemainingTime',
+    chainId
+  });
+
+  const {data : totalCap} = useReadContract({
+    abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
+    address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
+    functionName: 'totalCap',
+    chainId
+  });
+  console.log("contract totalcap value", totalCap);
 
 
   // set contract
@@ -81,17 +125,6 @@ const Hero = () => {
     setContract(temp_contract);
   }, [chainId, web3]);
 
-  const balance = useBalance({
-    address: address,
-  });
-
-  const usdtBalance = useBalance({
-    address: address,
-    token:
-      connectedNetworkName === "ETHEREUM"
-        ? USDT_ADDRESS_ON_ETHEREUM
-        : USDT_ADDRESS_ON_BINANCE,
-  });
 
   ///////////////   helper functions      ////////////////////////////
   const myRound = (valueToBeRounded: any): any => {
@@ -122,6 +155,7 @@ const Hero = () => {
 
       // Calculate ETH price in terms of USDT
       const ethPriceInUSDT = (reserveUSDT * ethers.WeiPerEther) / reserveETH;
+      console.log("ethereum price", Number(ethPriceInUSDT) / 10 ** 6);
       setEthPrice(Number(ethPriceInUSDT) / 10 ** 6);
     } catch (err) {
       console.log(err);
@@ -144,6 +178,7 @@ const Hero = () => {
 
       const amounts = await uniswapPairContract.getAmountsOut(BigInt(10 ** 18), ["0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", "0x55d398326f99059fF775485246999027B3197955"]);
       const _bnbprice = Number(amounts[1]) / Number(10 ** 18);
+      console.log("BNB price", Math.floor(_bnbprice * 10 ** 4) / (10 ** 4));
       setBnbPrice(Math.floor(_bnbprice * 10 ** 4) / (10 ** 4));
 
     } catch (err) {
@@ -155,35 +190,31 @@ const Hero = () => {
   const calcReceiveAmount = async () => {
     if (!isConnected || (chainId !== 1 && chainId !== 56) || web3 === null)
       return;
+    if(!shibaPrice) return ;
     let tmpBuyAmount = parseFloat(buyAmount);
     if (isNaN(tmpBuyAmount) || tmpBuyAmount <= 0) {
       setReceiveAmount(0.0);
       return;
     }
-    const tmpTotalCap = await contract?.methods.totalCap().call();
-    setTotalCap(Number(tmpTotalCap));
     let price;
     switch (selectedBuyMethod) {
       case "BSC":
-        price = await contract?.methods.getCurrentTokenPrice().call();
-        price = Number(price) / 10 ** 4;
+        price = Number(shibaPrice) / 10 ** 4;
         let tmpBnbReceiveAmount = (Number(bnbPrice) * tmpBuyAmount) / price;
         setReceiveAmount(myRound(tmpBnbReceiveAmount));
         break;
       case "ETH":
-        price = await contract?.methods.getCurrentTokenPrice().call();
-        price = Number(price) / 10 ** 4;
+        price = Number(shibaPrice) / 10 ** 4;
         let tmpEthReceiveAmount = (Number(ethPrice) * tmpBuyAmount) / price;
+
         setReceiveAmount(myRound(tmpEthReceiveAmount));
         break;
       case "USDT":
-        price = await contract?.methods.getCurrentTokenPrice().call();
-        price = Number(price) / 10 ** 4;
+        price = Number(shibaPrice) / 10 ** 4;
         let tmpUsdtReceiveAmount = tmpBuyAmount / price;
         setReceiveAmount(myRound(tmpUsdtReceiveAmount));
         break;
     }
-    setShibaPrice(Number(price));
   };
 
   const doBuyTokens = async () => {
@@ -194,7 +225,7 @@ const Hero = () => {
       setReceiveAmount(0.0);
       return;
     }
-    console.log("//////////////////" , tmpBuyAmount);
+    console.log("//////////////////", tmpBuyAmount);
     switch (selectedBuyMethod) {
       case "BSC":
         try {
@@ -234,7 +265,7 @@ const Hero = () => {
         break;
       case "USDT":
         if (chainId === 1) {
-          let approved:any = false;
+          let approved: any = false;
           // Approve
           try {
             await writeContractAsync({
@@ -242,7 +273,7 @@ const Hero = () => {
               address: USDT_ADDRESS_ON_ETHEREUM,
               functionName: 'approve',
               args: [
-                ETHEREUM_PRESALE_CONTRACT_ADDRESS , 
+                ETHEREUM_PRESALE_CONTRACT_ADDRESS,
                 tmpBuyAmount * (10 ** 6)
               ]
             });
@@ -256,7 +287,7 @@ const Hero = () => {
           } catch (error: any) {
             toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
           }
-          if(!approved) break ;
+          if (!approved) break;
           try {
             let hash = await writeContractAsync({
               abi: ETHEREUM_PRESALE_CONTRACT_ABI,
@@ -276,10 +307,10 @@ const Hero = () => {
             toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
           }
         }
-        
+
         if (chainId === 56) {
-          
-          let approved:any = false;
+
+          let approved: any = false;
           // Approve
           try {
             await writeContractAsync({
@@ -287,7 +318,7 @@ const Hero = () => {
               address: USDT_ADDRESS_ON_BINANCE,
               functionName: 'approve',
               args: [
-                BINANCE_PRESALE_CONTRACT_ADDRESS , 
+                BINANCE_PRESALE_CONTRACT_ADDRESS,
                 tmpBuyAmount * (10 ** 18)
               ]
             });
@@ -301,7 +332,7 @@ const Hero = () => {
           } catch (error: any) {
             toast(<Notification type={"fails"} msg={`${error.message || error}`} />);
           }
-          if(!approved) break ;
+          if (!approved) break;
 
           try {
             let hash = await writeContractAsync({
@@ -348,13 +379,8 @@ const Hero = () => {
     const tmpStarted = await contract?.methods.presaleStarted().call();
     setHasPresaleStarted(Boolean(tmpStarted));
     if (!tmpStarted) {
-      setTimeRemained(0);
       return;
     }
-    const tmpTimeRemained = await contract?.methods
-      .calculateRemainingTime()
-      .call();
-    setTimeRemained(Number(tmpTimeRemained));
   };
 
   /////////////// UI EVENT HANDLE SECTION /////////////////////////////
@@ -383,9 +409,6 @@ const Hero = () => {
 
   //input amount change
   const handleBuyAmountChanged = (e: any) => {
-    if (e.target.value === "")
-      setBuyAmount("0");
-    else
       setBuyAmount(e.target.value);
   };
 
@@ -440,24 +463,26 @@ const Hero = () => {
     return "HAS NOT STARTED YET";
   };
 
-  const updateCount = () => {
-    if (timeRemained === 0) return;
-    setTimeRemained(Number(timeRemained) - Number(1));
-    setDaysRemained(Number(timeRemained) / (60 * 60 * 24));
-    setHoursRemained((Number(timeRemained) % (60 * 60 * 24)) / (60 * 60));
-    setMinutesRemained((Number(timeRemained) % (60 * 60)) / 60);
-    setSecondRemained(Number(timeRemained) % 60);
-  };
+  useEffect(() => {
+    if(!timeRemained) return ;
+    setDaysRemained(Math.floor(Number(timeRemained) / (60 * 60 * 24)));
+    setHoursRemained(Math.floor((Number(timeRemained) / 60 / 60) % 24));
+    setMinutesRemained(Math.floor((Number(timeRemained) / 60) % 60));
+    setSecondRemained(Math.floor(Number(timeRemained) % 60));
+    console.log(Number(timeRemained) / (60 * 60 * 24) , (Number(timeRemained) / 60 / 60) % 24 , (Number(timeRemained) / 60) % 60 , Number(timeRemained) % 60);
+  } , [timeRemained]);
 
   useEffect(() => {
-    if (ethPrice === 0.0)
+    console.log("get eth & bnb price");
+    if (ethPrice === undefined)
       getETHPrice();
-    if (bnbPrice === 0.0)
+    if (bnbPrice === undefined)
       getBNBPrice();
   }, []);
 
   useEffect(() => {
     if (!isConnected) return;
+    console.log("connected", chainId);
     if (chainId === 1) {
       setConnectedNetworkName("ETHEREUM");
       setWeb3(new Web3(ETHEREUM_RPC_URL));
@@ -471,14 +496,11 @@ const Hero = () => {
     setReceiveAmount(0.0);
     getPresaleStatus();
 
-    const intervalId = setInterval(updateCount, 1000);
-
-    return () => clearInterval(intervalId);
   }, [isConnected, chainId]);
 
   useEffect(() => {
     calcReceiveAmount();
-  }, [buyAmount]);
+  }, [buyAmount , shibaPrice, selectedBuyMethod]);
 
   return (
     <section className="mt-[150px] lg:mt-[50px]">
@@ -507,7 +529,7 @@ const Hero = () => {
                 <TimeAtomicBlockSepeateComp />
                 <TimeAtomicBlock title="minutes" value={minutesRemained} />
                 <TimeAtomicBlockSepeateComp />
-                <TimeAtomicBlock title="days" value={secondsRemained} />
+                <TimeAtomicBlock title="seconds" value={secondsRemained} />
               </div>
               <div className="pt-7 mt-5 sm:mt-0">
                 <div className="sm:flex sm:justify-between grid justify-center">
@@ -515,13 +537,23 @@ const Hero = () => {
                     RAISED:
                   </p>
                   <p className="font-shareTech my-auto text-[#F7A039] text-[24px]">
-                    $ {totalCap.toString()}/$2,000,000
+                    $ {!totalCap ? "0" : Math.floor(Number(totalCap) / (chainId === 1 ? 10 ** 2 : 10 ** 14)) / 10 ** 4}/$2,000,000
                   </p>
                 </div>
+                
+                <div className="sm:flex sm:justify-between grid justify-center">
+                  <p className="font-shareTech sm:mx-0 mx-auto my-auto text-white text-[32px]">
+                    Claimed:
+                  </p>
+                  <p className="font-shareTech my-auto text-[#F7A039] text-[24px]">
+                    {!claimAmount ? "0" : Math.floor(Number(claimAmount) / 10 ** 14) / 10 ** 4 } $PSHIBA
+                  </p>
+                </div>
+
                 <div className="flex justify-between">
                   <div className="sm:block hidden w-[125px] border my-auto border-white"></div>
                   <p className="h-[23px] mx-auto sm:mx-0 text-[#F7A039] font-shareTech text-[20px] text-center">
-                    1 BCF = ${shibaPrice.toString()}
+                    1 PSHIBA = ${!shibaPrice ? "0" : Number(shibaPrice) / 10 ** 4}
                   </p>
                   <div className="sm:block hidden w-[125px] border my-auto border-white"></div>
                 </div>
