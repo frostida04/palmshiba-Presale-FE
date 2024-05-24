@@ -106,6 +106,13 @@ const Hero = () => {
   });
   console.log("contract totalcap value", totalCap);
 
+  const {data : presaleStarted} = useReadContract({
+    abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
+    address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
+    functionName: 'presaleStarted',
+    chainId
+  });
+  console.log("contract presale value", presaleStarted);
 
   // set contract
   useEffect(() => {
@@ -517,7 +524,7 @@ const Hero = () => {
                 <span className="text-[#F7A039] block sm:inline">PALSHIBA</span>
               </h2>
               <p className="text-white font-shareTech text-[25.24px]">
-                {dispPresaleStatus()}
+                {presaleStarted === true ? "Time Remain" : "Presale not started"}
               </p>
             </Grid>
 

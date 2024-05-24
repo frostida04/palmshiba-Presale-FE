@@ -6,7 +6,7 @@ interface TimeAtomicBlockProps {
 const TimeAtomicBlock: React.FC<TimeAtomicBlockProps> = ({ title, value }) => {
   return (
     <div className="relative mx-[5.42px]">
-      <div className="absolute right-1 top-1 sm:-top-4 sm:right-0 font-shareTech text-white text-[40px] sm:text-[85.29px]">
+      <div className={"absolute right-1 top-1 sm:-top-4 sm:right-0 font-shareTech text-white text-[40px] sm:text-[85.29px]"}>
         {value.toString()}
       </div>
       <div className="rounded-md w-[70.14px] sm:w-[100.28px] h-[31.18px] sm:h-[42.37px] bg-[#F7A039]"></div>
