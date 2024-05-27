@@ -3,14 +3,34 @@ import Logo from "./Logo";
 
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
+import { useDisconnect } from "wagmi";
+
+import { motion } from "framer-motion";
+
+import { useRef } from "react";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const [stickyMenu, setStickyMenu] = useState(false);
-  const [isOpen, setIsOpen] = useState<Boolean>(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
 
   const { open } = useWeb3Modal();
 
   const account = useAccount();
+  const { disconnect } = useDisconnect();
 
   //const pathUrl = "/"
 
@@ -30,10 +50,24 @@ const Header = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
     if (stickyMenu) setStickyMenu(true);
-  });
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleConnectButtonClick = () => {
     open();
+  };
+
+  const handleDisconnect = () => {
+    setIsOpen(false);
+    if (account.status === "connected") {
+      disconnect();
+    } else {
+      open();
+    }
   };
 
   const dispHeroButton = () => {
@@ -77,6 +111,7 @@ const Header = () => {
 
   return (
     <header
+      ref={dropdownRef}
       className={`fixed left-0 top-0 z-999  h-32 md:h-auto w-full py-4 px-[10px] sm:px-[80px] bg-[#04011C] shadow-lg transition duration-100 rounded-sm`}
       data-aos="fade-down"
     >
@@ -123,48 +158,83 @@ const Header = () => {
             </ul>
           </nav>
         </div>
-        <div
-          className={`${
-            isOpen ? "block" : "hidden"
-          } absolute right-0  bg-[#04011C]  z-9999 top-32 md:top-25 lg:hidden   w-[100%]  py-5 text-center }`}
-        >
-          <nav>
-            <ul className="items-centerjustify-center font-holtwood  gap-10">
-              <li className="mb-3">
-                <a
-                  href={`#about`}
-                  className="text-white text-[20px] tracking-widest"
-                >
-                  About
-                </a>
-              </li>
-              <li className="my-3">
-                <a
-                  href={`#howtobuy`}
-                  className="text-white text-[20px] tracking-widest"
-                >
-                  How to buy
-                </a>
-              </li>
-              <li className="my-3">
-                <a
-                  href={`#claim`}
-                  className="text-white  text-[20px] tracking-widest"
-                >
-                  Claim
-                </a>
-              </li>
-              <li className="my-3">
-                <a
-                  href={`#faq`}
-                  className="text-white text-[20px] tracking-widest"
-                >
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <motion.div animate={isOpen ? "open" : "closed"} className="">
+          <div
+            ref={dropdownRef}
+            className={`${
+              isOpen ? "block" : "hidden"
+            } absolute right-0 transition-all duration-3000  origin-top-right bg-[#04011C]  z-9999 top-30 md:top-25 lg:hidden   w-[100%]  py-5 text-center }`}
+          >
+            <motion.nav
+              initial={wrapperVariants.closed}
+              variants={wrapperVariants}
+              style={{ originY: "top" }}
+            >
+              <ul className="items-centerjustify-center px-10 text-left font-holtwood  gap-10">
+                <li className="mb-3  ">
+                  <a
+                    href={`#about`}
+                    className="flex justify-between text-white text-[25px] px-5 hover:text-gray-700 tracking-widest"
+                  >
+                    About
+                    <FontAwesomeIcon
+                      icon={faAngleRight}
+                      size="1x"
+                      className=""
+                    />
+                  </a>
+                </li>
+                <li className="my-7  ">
+                  <a
+                    href={`#howtobuy`}
+                    className="text-white flex justify-between text-[25px] px-5 hover:text-gray-700 tracking-widest"
+                  >
+                    How to buy
+                    <FontAwesomeIcon
+                      icon={faAngleRight}
+                      size="1x"
+                      className=""
+                    />
+                  </a>
+                </li>
+                <li className="my-7  ">
+                  <a
+                    href={`#claim`}
+                    className="text-white flex justify-between text-[25px] px-5 hover:text-gray-700 tracking-widest"
+                  >
+                    Claim
+                    <FontAwesomeIcon
+                      icon={faAngleRight}
+                      size="1x"
+                      className=""
+                    />
+                  </a>
+                </li>
+                <li className="my-7 ">
+                  <a
+                    href={`#faq`}
+                    className="text-white flex justify-between text-[25px] px-5 hover:text-gray-700 tracking-widest"
+                  >
+                    FAQ
+                    <FontAwesomeIcon
+                      icon={faAngleRight}
+                      size="1x"
+                      className=""
+                    />
+                  </a>
+                </li>
+                <li className="mb-3 text-center">
+                  <button
+                    onClick={() => handleDisconnect()}
+                    className="text-[30px] hover:text-white"
+                  >
+                    {account.status === "connected" ? "Disconnect" : "Connect"}
+                  </button>
+                </li>
+              </ul>
+            </motion.nav>
+          </div>
+        </motion.div>
         <div className="hidden m-auto md:block rounded-lg p-[1.5px] bg-gradient-to-br from-[#E5B50A] to-[#FF17BD]">
           <button
             className={`font-helvetica ${
@@ -180,11 +250,12 @@ const Header = () => {
             )}
           </button>
         </div>
-        <div className="lg:hidden m-auto md:static right-10 top-10">
+
+        <div ref={dropdownRef} className="lg:hidden text-right">
           <button
             onClick={() => handleOpen()}
             type="button"
-            className="block text-gray-500 hover:text-white focus:text-white focus:outline-none"
+            className="block text-gray-500  hover:text-white focus:text-white focus:outline-none"
           >
             <svg className="h-10 w-10 fill-current" viewBox="0 0 24 24">
               {isOpen ? (
@@ -207,3 +278,20 @@ const Header = () => {
 };
 
 export default Header;
+
+const wrapperVariants = {
+  open: {
+    scaleY: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+  closed: {
+    scaleY: 0,
+    transition: {
+      when: "afterChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
