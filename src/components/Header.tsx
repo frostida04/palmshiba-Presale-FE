@@ -3,7 +3,7 @@ import Logo from "./Logo";
 
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
-import { useDisconnect } from "wagmi";
+// import { useDisconnect } from "wagmi";
 
 import { motion } from "framer-motion";
 
@@ -30,7 +30,7 @@ const Header = () => {
   const { open } = useWeb3Modal();
 
   const account = useAccount();
-  const { disconnect } = useDisconnect();
+  // const { disconnect } = useDisconnect();
 
   //const pathUrl = "/"
 
@@ -63,11 +63,7 @@ const Header = () => {
 
   const handleDisconnect = () => {
     setIsOpen(false);
-    if (account.status === "connected") {
-      disconnect();
-    } else {
-      open();
-    }
+    open();
   };
 
   const dispHeroButton = () => {
@@ -226,9 +222,11 @@ const Header = () => {
                 <li className="mb-3 text-center">
                   <button
                     onClick={() => handleDisconnect()}
-                    className="text-[30px] hover:text-white"
+                    className="text-[30px] font-shareTech tracking-widest hover:text-white"
                   >
-                    {account.status === "connected" ? "Disconnect" : "Connect"}
+                    {account.status === "connected"
+                      ? `Switch or Disconnect`
+                      : "Connect"}
                   </button>
                 </li>
               </ul>
