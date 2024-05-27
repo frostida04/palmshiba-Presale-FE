@@ -48,15 +48,14 @@ const Hero = () => {
     useState<string>("None");
 
   const [web3, setWeb3] = useState<Web3 | null>(null);
-  const [hasPresaleStarted, setHasPresaleStarted] = useState<Boolean>(false);
   const [daysRemained, setDaysRemained] = useState<Number>(0);
   const [hoursRemained, setHoursRemained] = useState<Number>(0);
   const [minutesRemained, setMinutesRemained] = useState<Number>(0);
   const [secondsRemained, setSecondRemained] = useState<Number>(0);
-  const [contract, setContract] = useState<any>(); 
 
   const [ethPrice, setEthPrice] = useState<Number>();
   const [bnbPrice, setBnbPrice] = useState<Number>();
+  const [timeRemained, setTimeRemained] = useState<Number | undefined>();
   
   const { open } = useWeb3Modal();
   const { address, isConnected, chainId } = useAccount();
@@ -78,7 +77,7 @@ const Hero = () => {
     abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
     address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
     functionName: 'getCurrentTokenPrice',
-    chainId
+    chainId: chainId === undefined ? 56 : chainId
   });
   console.log("contract shiba price value", shibaPrice);
   
@@ -87,22 +86,24 @@ const Hero = () => {
     address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
     functionName: 'getBalance',
     account: address,
-    chainId
+    chainId: chainId === undefined ? 56 : chainId
+
   });
   console.log("Buy Amount", shibaPrice);
 
-  const {data: timeRemained} = useReadContract({
+  const {data: _timeRemained} = useReadContract({
     abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
     address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
     functionName: 'calculateRemainingTime',
-    chainId
+    chainId: chainId === undefined ? 56 : chainId
   });
 
   const {data : totalCap} = useReadContract({
     abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
     address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
     functionName: 'totalCap',
-    chainId
+    chainId: chainId === undefined ? 56 : chainId
+
   });
   console.log("contract totalcap value", totalCap);
 
@@ -110,28 +111,9 @@ const Hero = () => {
     abi : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ABI : BINANCE_PRESALE_CONTRACT_ABI,
     address : chainId === 1 ? ETHEREUM_PRESALE_CONTRACT_ADDRESS : BINANCE_PRESALE_CONTRACT_ADDRESS,
     functionName: 'presaleStarted',
-    chainId
+    chainId: chainId === undefined ? 56 : chainId
   });
   console.log("contract presale value", presaleStarted);
-
-  // set contract
-  useEffect(() => {
-    if (!(chainId === 1 || chainId === 56)) return;
-    if (!web3) return;
-    let temp_contract;
-    if (chainId === 1)
-      temp_contract = new web3.eth.Contract(
-        ETHEREUM_PRESALE_CONTRACT_ABI,
-        ETHEREUM_PRESALE_CONTRACT_ADDRESS
-      );
-    else if (chainId === 56)
-      temp_contract = new web3.eth.Contract(
-        BINANCE_PRESALE_CONTRACT_ABI,
-        BINANCE_PRESALE_CONTRACT_ADDRESS
-      );
-    setContract(temp_contract);
-  }, [chainId, web3]);
-
 
   ///////////////   helper functions      ////////////////////////////
   const myRound = (valueToBeRounded: any): any => {
@@ -195,8 +177,6 @@ const Hero = () => {
 
   ////////////// Core functions      //////////////////////////////
   const calcReceiveAmount = async () => {
-    if (!isConnected || (chainId !== 1 && chainId !== 56) || web3 === null)
-      return;
     if(!shibaPrice) return ;
     let tmpBuyAmount = parseFloat(buyAmount);
     if (isNaN(tmpBuyAmount) || tmpBuyAmount <= 0) {
@@ -380,16 +360,6 @@ const Hero = () => {
     }
   };
 
-  const getPresaleStatus = async () => {
-    if (!isConnected || (chainId !== 1 && chainId !== 56) || web3 === null)
-      return;
-    const tmpStarted = await contract?.methods.presaleStarted().call();
-    setHasPresaleStarted(Boolean(tmpStarted));
-    if (!tmpStarted) {
-      return;
-    }
-  };
-
   /////////////// UI EVENT HANDLE SECTION /////////////////////////////
   const handleBuyWithSelected = (chainName: string) => {
     setSelectedBuyMethod(chainName);
@@ -465,11 +435,6 @@ const Hero = () => {
     }
   };
 
-  const dispPresaleStatus = () => {
-    if (hasPresaleStarted) return "TIME REMAINING";
-    return "HAS NOT STARTED YET";
-  };
-
   useEffect(() => {
     if(!timeRemained) return ;
     setDaysRemained(Math.floor(Number(timeRemained) / (60 * 60 * 24)));
@@ -501,13 +466,29 @@ const Hero = () => {
     }
     setBuyAmount("0.0");
     setReceiveAmount(0.0);
-    getPresaleStatus();
 
   }, [isConnected, chainId]);
 
   useEffect(() => {
     calcReceiveAmount();
   }, [buyAmount , shibaPrice, selectedBuyMethod]);
+
+  useEffect(() => {
+    if(!_timeRemained) return;
+    
+    const timerHanlde = setInterval(() => {
+      if(timeRemained === 0) clearInterval(timerHanlde);
+      else {
+        setTimeRemained((x: Number | undefined) => {
+          if(x === undefined) return Number(_timeRemained);
+          else return Number(x.valueOf() - 1);
+        });
+        console.log("Timer : ", timeRemained);
+      }
+    }, 1000);
+
+    return () => clearInterval(timerHanlde);
+  }, [_timeRemained]);
 
   return (
     <section className="mt-[150px] lg:mt-[50px]">

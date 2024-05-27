@@ -115,7 +115,7 @@ const Header = () => {
             </ul>
           </nav>
         </div>
-        <div className="m-auto md:static">
+        <div className="hidden m-auto md:block">
           <w3m-button />
         </div>
         <div className="lg:hidden m-auto md:static right-10 top-10">
