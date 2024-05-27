@@ -1,17 +1,15 @@
 import Grid from "../components/Grid";
-import Header from "../components/Header";
 import Hero from "./Hero";
 import AboutUs from "./AboutUs";
 import HowToBuy from "./HowToBuy";
+import Roadmap from "./Roadmap";
 import Gallery from "./Gallery";
 import Claim from "./Claim";
 import Staking from "./Staking";
 import FAQ from "./FAQ";
 import Footer from "./Footer";
-import BackgroundMask_1 from "../components/BackgroundMask_1";
-import BackgroundMask_2 from "../components/BackgroundMask_2";
-import BackgroundMask_3 from "../components/BackgroundMask_3";
-import BackgroundCartoonIcons from "../components/BackgroundIcons";
+import Tokenomics from "./Tokenomics";
+import Header from "../components/Header";
 
 const Home = () => {
   return (
@@ -20,15 +18,13 @@ const Home = () => {
       <Hero />
       <AboutUs />
       <HowToBuy />
+      <Roadmap />
+      <Tokenomics />
       <Gallery />
       <Claim />
       <Staking />
       <FAQ />
       <Footer />
-      <BackgroundMask_1 />
-      <BackgroundMask_2 />
-      <BackgroundMask_3 />
-      <BackgroundCartoonIcons />
     </Grid>
   );
 };

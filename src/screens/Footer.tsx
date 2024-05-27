@@ -20,33 +20,48 @@ const Footer = () => {
       </div>
       <div className="gird md:flex mx-auto mt-[30px]">
         <div className="md:my-0 my-[20px] flex flex-row ">
-          <a target = "_blank" href = "https://facebook.com" className="block text-center mx-[20px] w-[125.89px] text-white text-[72px] font-bold bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
+          <a
+            target="_blank"
+            href="https://facebook.com"
+            className="block text-center mx-[20px] w-[125.89px] text-white text-[72px] font-bold bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]"
+          >
             f
           </a>
-          <a target = "_blank"  href = "https://instagram.com" className="block text-center mx-[20px] w-[125.89px] text-white text-[72px] font-bold bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]">
+          <a
+            target="_blank"
+            href="https://instagram.com"
+            className="block text-center mx-[20px] w-[125.89px] text-white text-[72px] font-bold bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07]"
+          >
             in
           </a>
         </div>
         <div className="flex md:mt-0 mt-[20px]">
-          <a target = "_blank"  href = "https://twitter.com/palmshiba " className="text-center w-[125.89px] cursor-pointer  mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07] flex flex-row items-center justify-center">
-            <img
-              src="images/twitter.png"
-              className="w-[50%]"
-            />
+          <a
+            target="_blank"
+            href="https://twitter.com/palmshiba "
+            className="text-center w-[125.89px] cursor-pointer  mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07] flex flex-row items-center justify-center"
+          >
+            <img src="images/twitter.png" className="w-[50%]" />
           </a>
-          <a target = "_blank"  href = "https://t.me/palmshiba" className="text-center w-[125.89px] mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07] flex flex-row items-center justify-center hover:cursor-pointer">
-            <img
-              src="images/telegram.png"
-              className="w-[50%]"
-
-            />
+          <a
+            target="_blank"
+            href="https://t.me/palmshiba"
+            className="text-center w-[125.89px] mx-[20px] bg-gradient-to-r h-[125.89px] rounded-full from-[#F56717] to-[#862D07] flex flex-row items-center justify-center hover:cursor-pointer"
+          >
+            <img src="images/telegram.png" className="w-[50%]" />
           </a>
         </div>
       </div>
-      <div className="relative mt-[300px] lg:mt-[100px] mb-[150px] w-full h-[95px] border-t-2 border-t-white border-opacity-20">
-        <p className="text-white text-[20px] font-helvetica absolute left-5 sm:left-15 md:left-20 lg:left-0 bottom-0">
+      <div className="relative pt-[100px] px-3 mt-[300px] lg:mt-[100px] md:flex text-center grid justify-center md:justify-between mb-[80px] w-full border-t-2 border-t-white border-opacity-20">
+        <p className="text-white text-[20px] font-helvetica">
           Copyright © 2024 PALMSHIBA. All Rights Reserved
         </p>
+        <a
+          href="/termsAndConditions"
+          className="text-white w-fit md:mx-0 mx-auto cursor-pointer md:mt-0 text-center mt-3 text-[20px] font-helvetica border-b border-b-white border-opacity-80"
+        >
+          Terms and Conditions
+        </a>
         <img
           src="images/shiba.png"
           className="absolute right-0 -top-[227px] w-[227px]"

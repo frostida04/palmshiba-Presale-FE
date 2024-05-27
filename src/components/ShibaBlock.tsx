@@ -10,7 +10,11 @@ const ShibaBlock = () => {
           className="absolute bottom-25 left-4"
           alt="leaves image"
         /> */}
-        <img src="images/shiba_palm.png" className="absolute" alt="shiba image" />
+        <img
+          src="images/shiba_palm.png"
+          className="absolute"
+          alt="shiba image"
+        />
       </div>
       {/* <img
         src="images/shiba_footprintf_filled.png"

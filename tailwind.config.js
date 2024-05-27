@@ -37,6 +37,7 @@ export default {
         shareTech: ["Share Tech", "Holtwood One SC"],
         poppins: ["Poppins", "Holtwood One SC"],
         axiforma: ["Axiforma", "sans-serif"],
+        impact: ["Ultra"],
       },
       fontSize: {
         metatitle: ["12px", "20px"],
@@ -128,7 +129,7 @@ export default {
         "solid-2": "0px 2px 10px rgba(122, 135, 167, 0.05)",
         "solid-3": "0px 6px 90px rgba(8, 14, 40, 0.04)",
         "solid-4": "0px 6px 90px rgba(8, 14, 40, 0.1)",
-        "solid-5": "0px 8px 24px rgba(45, 74, 170, 0.08)",  
+        "solid-5": "0px 8px 24px rgba(45, 74, 170, 0.08)",
         "solid-6": "0px 8px 24px rgba(10, 16, 35, 0.08)",
         "solid-7": "0px 30px 50px rgba(45, 74, 170, 0.1)",
         "solid-8": "0px 12px 120px rgba(45, 74, 170, 0.06)",

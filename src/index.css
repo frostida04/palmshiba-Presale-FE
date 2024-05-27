@@ -123,8 +123,8 @@ nav li {
     #00c2ff 72%,
     #e1a1ff 100%
   );
-  rotate: 145deg;
-  filter: blur(100px);
+  rotate: -45deg;
+  filter: blur(200px);
 }
 
 #backgroundMask_2 {

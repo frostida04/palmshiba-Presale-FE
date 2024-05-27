@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import Logo from "./Logo";
 
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAccount } from "wagmi";
+
 const Header = () => {
   const [stickyMenu, setStickyMenu] = useState(false);
   const [isOpen, setIsOpen] = useState<Boolean>(false);
+
+  const { open } = useWeb3Modal();
+
+  const account = useAccount();
 
   //const pathUrl = "/"
 
@@ -24,6 +31,49 @@ const Header = () => {
     window.addEventListener("scroll", handleStickyMenu);
     if (stickyMenu) setStickyMenu(true);
   });
+
+  const handleConnectButtonClick = () => {
+    open();
+  };
+
+  const dispHeroButton = () => {
+    switch (account.status) {
+      case "connecting":
+        return (
+          <svg className="h-6 w-6 animate-spin m-auto" viewBox="0 0 100 100">
+            <circle
+              fill="none"
+              stroke-width="10"
+              className="stroke-current opacity-40"
+              cx="50"
+              cy="50"
+              r="40"
+            />
+            <circle
+              fill="none"
+              stroke-width="10"
+              className="stroke-current"
+              stroke-dasharray="250"
+              stroke-dashoffset="210"
+              cx="50"
+              cy="50"
+              r="40"
+            />
+          </svg>
+        );
+      case "disconnected":
+        return "Wallet Connect";
+      case "connected":
+        return (
+          account.address.substring(0, 5) +
+          "..." +
+          account.address.substring(
+            account.address.length - 5,
+            account.address.length
+          )
+        );
+    }
+  };
 
   return (
     <header
@@ -76,14 +126,14 @@ const Header = () => {
         <div
           className={`${
             isOpen ? "block" : "hidden"
-          } absolute right-0  bg-[#04011C]   z-9999 top-32 md:top-25 lg:hidden   w-[100%]  py-5 text-center }`}
+          } absolute right-0  bg-[#04011C]  z-9999 top-32 md:top-25 lg:hidden   w-[100%]  py-5 text-center }`}
         >
           <nav>
-            <ul className="items-centerjustify-center  gap-10">
+            <ul className="items-centerjustify-center font-holtwood  gap-10">
               <li className="mb-3">
                 <a
                   href={`#about`}
-                  className="text-white text-[20px] font-helvetica"
+                  className="text-white text-[20px] tracking-widest"
                 >
                   About
                 </a>
@@ -91,7 +141,7 @@ const Header = () => {
               <li className="my-3">
                 <a
                   href={`#howtobuy`}
-                  className="text-white text-[20px] font-helvetica"
+                  className="text-white text-[20px] tracking-widest"
                 >
                   How to buy
                 </a>
@@ -99,7 +149,7 @@ const Header = () => {
               <li className="my-3">
                 <a
                   href={`#claim`}
-                  className="text-white  text-[20px] font-helvetica"
+                  className="text-white  text-[20px] tracking-widest"
                 >
                   Claim
                 </a>
@@ -107,7 +157,7 @@ const Header = () => {
               <li className="my-3">
                 <a
                   href={`#faq`}
-                  className="text-white text-[20px] font-helvetica"
+                  className="text-white text-[20px] tracking-widest"
                 >
                   FAQ
                 </a>
@@ -115,8 +165,20 @@ const Header = () => {
             </ul>
           </nav>
         </div>
-        <div className="hidden m-auto md:block">
-          <w3m-button />
+        <div className="hidden m-auto md:block rounded-lg p-[1.5px] bg-gradient-to-br from-[#E5B50A] to-[#FF17BD]">
+          <button
+            className={`font-helvetica ${
+              account.status === "connecting" ? " flex justify-center " : " "
+            } text-center rounded-[calc(0.5rem-1.5px)]  bg-slate-950 bg-opacity-90   text-[20px] w-[224px] h-[54px] text-white cursor-pointer`}
+            onClick={() => handleConnectButtonClick()}
+          >
+            {dispHeroButton()}
+            {account.status === "connecting" ? (
+              <p className="m-auto">Connecting</p>
+            ) : (
+              ""
+            )}
+          </button>
         </div>
         <div className="lg:hidden m-auto md:static right-10 top-10">
           <button
