@@ -1,13 +1,21 @@
 import "./TermsAndConditions.css";
 
+import { useNavigate } from "react-router-dom";
+
 const TermsAndConditions = () => {
+  const navigate = useNavigate();
+
+  const handleHome = () => {
+    navigate("/");
+  };
+
   return (
     <section
       id="termsAndConditions"
       className="px-7 sm:px-[65px] z-10 overflow-y-hidden"
     >
       <h1 className="my-[82px] text-center lg:flex grid justify-center font-holtwood text-[30px] lg:text-[36px]">
-        <a href="/">
+        <a className="cursor-pointer" onClick={() => handleHome()}>
           <span className="bg-gradient-to-r from-[#F7A039] to-[#F04B56] bg-clip-text text-transparent">
             PALMSHIBA
           </span>

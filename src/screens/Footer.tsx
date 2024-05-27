@@ -1,6 +1,13 @@
 import Grid from "../components/Grid";
 
+import { useNavigate } from "react-router-dom";
+
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const handleTerm = () => {
+    navigate("/termsAndConditions");
+  };
   return (
     <Grid
       className="mt-[100px] lg:px-20 z-10"
@@ -57,7 +64,7 @@ const Footer = () => {
           Copyright © 2024 PALMSHIBA. All Rights Reserved
         </p>
         <a
-          href="/termsAndConditions"
+          onClick={() => handleTerm()}
           className="text-white w-fit md:mx-0 mx-auto cursor-pointer md:mt-0 text-center mt-3 text-[20px] font-helvetica border-b border-b-white border-opacity-80"
         >
           Terms and Conditions
