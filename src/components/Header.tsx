@@ -180,7 +180,7 @@ const Header = () => {
                     <FontAwesomeIcon
                       icon={faAngleRight}
                       size="1x"
-                      className=""
+                      className="my-auto"
                     />
                   </a>
                 </li>
@@ -193,7 +193,7 @@ const Header = () => {
                     <FontAwesomeIcon
                       icon={faAngleRight}
                       size="1x"
-                      className=""
+                      className="my-auto"
                     />
                   </a>
                 </li>
@@ -206,7 +206,7 @@ const Header = () => {
                     <FontAwesomeIcon
                       icon={faAngleRight}
                       size="1x"
-                      className=""
+                      className="my-auto"
                     />
                   </a>
                 </li>
@@ -219,7 +219,7 @@ const Header = () => {
                     <FontAwesomeIcon
                       icon={faAngleRight}
                       size="1x"
-                      className=""
+                      className="my-auto"
                     />
                   </a>
                 </li>
