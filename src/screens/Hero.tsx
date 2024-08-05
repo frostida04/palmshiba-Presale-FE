@@ -67,7 +67,7 @@ const Hero = () => {
   const [ethPrice, setEthPrice] = useState<Number>();
   const [bnbPrice, setBnbPrice] = useState<Number>();
   const [timeRemained, setTimeRemained] = useState<Number | undefined>();
-  //const [totalCapAmount, setTotalCapAmount] = useState<Number>(0);
+  const [totalCapAmount, setTotalCapAmount] = useState<Number>(0);
 
   const { open } = useWeb3Modal();
   const { address, isConnected, chainId } = useAccount();
@@ -127,18 +127,18 @@ const Hero = () => {
     chainId: chainId === undefined ? 56 : chainId,
   });
 
-  // const { data: totalCap} = useReadContract({
-  //   abi:
-  //     chainId === 1
-  //       ? ETHEREUM_PRESALE_CONTRACT_ABI
-  //       : BINANCE_PRESALE_CONTRACT_ABI,
-  //   address:
-  //     chainId === 1
-  //       ? ETHEREUM_PRESALE_CONTRACT_ADDRESS
-  //       : BINANCE_PRESALE_CONTRACT_ADDRESS,
-  //   functionName: "totalCap",
-  //   chainId: chainId === undefined ? 56 : chainId,
-  // });
+  const { data: totalCap} = useReadContract({
+    abi:
+      chainId === 1
+        ? ETHEREUM_PRESALE_CONTRACT_ABI
+        : BINANCE_PRESALE_CONTRACT_ABI,
+    address:
+      chainId === 1
+        ? ETHEREUM_PRESALE_CONTRACT_ADDRESS
+        : BINANCE_PRESALE_CONTRACT_ADDRESS,
+    functionName: "totalCap",
+    chainId: chainId === undefined ? 56 : chainId,
+  });
   //console.log("contract totalcap value", totalCap);
 
   const { data: presaleStarted } = useReadContract({
@@ -549,7 +549,9 @@ const Hero = () => {
         }
         setTimePercent(elapsedTime/totalDuration * 100);
         
-        //setTotalCapAmount(Number(totalCap));
+        let totalAmount = Number(Number(totalCap) + 86200000000);
+        
+        setTotalCapAmount(totalAmount);
         
         setTimeRemained((x: Number | undefined) => {
           if (x === undefined) return Number(elapsedTime); 
@@ -606,14 +608,14 @@ const Hero = () => {
                     RAISED:
                   </p>
                   <p className="font-shareTech my-auto text-[#F7A039] text-[24px]">
-                    ${"86,120"}
-                    {/* {!totalCapAmount
+                    ${" "}
+                    {!totalCapAmount
                       ? "0"
-                      : Math.floor(
+                      : (Math.floor(
                           Number(totalCapAmount) /
                             (chainId === 1 ? 10 ** 2 : 10 ** 14)
                         ) /
-                        10 ** 4} */}
+                        10 ** 4).toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 4 })}
                     /$2,000,000
                   </p>
                 </div>
