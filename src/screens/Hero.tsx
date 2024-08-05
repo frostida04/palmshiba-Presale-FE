@@ -133,7 +133,7 @@ const Hero = () => {
       chainId === 1
         ? ETHEREUM_PRESALE_CONTRACT_ADDRESS
         : BINANCE_PRESALE_CONTRACT_ADDRESS,
-    functionName: "endTimeStamp",
+    functionName: "totalCap",
     chainId: chainId === undefined ? 56 : chainId,
   });
   console.log("contract totalcap value", totalCap);
