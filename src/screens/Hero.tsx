@@ -67,7 +67,7 @@ const Hero = () => {
   const [ethPrice, setEthPrice] = useState<Number>();
   const [bnbPrice, setBnbPrice] = useState<Number>();
   const [timeRemained, setTimeRemained] = useState<Number | undefined>();
-  const [totalCapAmount, setTotalCapAmount] = useState<Number>(0);
+  //const [totalCapAmount, setTotalCapAmount] = useState<Number>(0);
 
   const { open } = useWeb3Modal();
   const { address, isConnected, chainId } = useAccount();
@@ -127,18 +127,18 @@ const Hero = () => {
     chainId: chainId === undefined ? 56 : chainId,
   });
 
-  const { data: totalCap} = useReadContract({
-    abi:
-      chainId === 1
-        ? ETHEREUM_PRESALE_CONTRACT_ABI
-        : BINANCE_PRESALE_CONTRACT_ABI,
-    address:
-      chainId === 1
-        ? ETHEREUM_PRESALE_CONTRACT_ADDRESS
-        : BINANCE_PRESALE_CONTRACT_ADDRESS,
-    functionName: "totalCap",
-    chainId: chainId === undefined ? 56 : chainId,
-  });
+  // const { data: totalCap} = useReadContract({
+  //   abi:
+  //     chainId === 1
+  //       ? ETHEREUM_PRESALE_CONTRACT_ABI
+  //       : BINANCE_PRESALE_CONTRACT_ABI,
+  //   address:
+  //     chainId === 1
+  //       ? ETHEREUM_PRESALE_CONTRACT_ADDRESS
+  //       : BINANCE_PRESALE_CONTRACT_ADDRESS,
+  //   functionName: "totalCap",
+  //   chainId: chainId === undefined ? 56 : chainId,
+  // });
   //console.log("contract totalcap value", totalCap);
 
   const { data: presaleStarted } = useReadContract({
@@ -502,7 +502,7 @@ const Hero = () => {
   useEffect(() => {
     //console.log("get eth & bnb price");
     //console.log("contract totalcap value", totalCap);
-    setTotalCapAmount(Number(totalCap));
+    //setTotalCapAmount(Number(totalCap));
     if (ethPrice === undefined) getETHPrice();
     if (bnbPrice === undefined) getBNBPrice();
   }, []);
@@ -549,7 +549,7 @@ const Hero = () => {
         }
         setTimePercent(elapsedTime/totalDuration * 100);
         
-        setTotalCapAmount(Number(totalCap));
+        //setTotalCapAmount(Number(totalCap));
         
         setTimeRemained((x: Number | undefined) => {
           if (x === undefined) return Number(elapsedTime); 
