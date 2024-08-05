@@ -549,7 +549,8 @@ const Hero = () => {
         }
         setTimePercent(elapsedTime/totalDuration * 100);
         
-        let totalAmount = Number(Number(totalCap) + 86200000000);
+        let totalAmount = chainId === 1? Number(Number(totalCap) + 86200000000): Number(Number(totalCap) + 86200000000000000000000);
+        console.log(totalCap);
         
         setTotalCapAmount(totalAmount);
         
