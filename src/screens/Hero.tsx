@@ -606,7 +606,7 @@ const Hero = () => {
                     RAISED:
                   </p>
                   <p className="font-shareTech my-auto text-[#F7A039] text-[24px]">
-                    ${"86120"}
+                    ${"86,120"}
                     {/* {!totalCapAmount
                       ? "0"
                       : Math.floor(
