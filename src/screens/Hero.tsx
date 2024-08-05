@@ -16,7 +16,7 @@ import {
 } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Web3 from "web3";
-import { ethers, Log } from "ethers";
+import { ethers } from "ethers";
 import { parseEther as viemParseEther } from "viem";
 
 ///////////////      RPC URLs     ///////////////
