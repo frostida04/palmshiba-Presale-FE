@@ -606,14 +606,14 @@ const Hero = () => {
                     RAISED:
                   </p>
                   <p className="font-shareTech my-auto text-[#F7A039] text-[24px]">
-                    ${" "}
-                    {!totalCapAmount
+                    ${"86120"}
+                    {/* {!totalCapAmount
                       ? "0"
                       : Math.floor(
                           Number(totalCapAmount) /
                             (chainId === 1 ? 10 ** 2 : 10 ** 14)
                         ) /
-                        10 ** 4}
+                        10 ** 4} */}
                     /$2,000,000
                   </p>
                 </div>
