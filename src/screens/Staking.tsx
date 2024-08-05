@@ -11,12 +11,13 @@ const Staking = () => {
           className="relative w-full h-[160%]  opacity-10 -left-[50%] block -top-[82%]"
         />
       </div>
-      <h2 className="z-10 text-center outlined-text font-holtwood text-[30px] sm:text-[35px] md:text-[54px] text-white">
-        STAKING IS
-      </h2>
+      
       <h3 className="z-10 text-center  font-holtwood text-[40px] sm-text-[60px] md:text-[96px] bg-clip-text text-transparent bg-gradient-to-b from-[#F8AC35] to-[#F15652]">
-        COMING
-        <br /> SOON
+        Staking Started On Batch 5
+      <br /> 
+      <h2 className="z-10 text-center outlined-text font-holtwood text-[30px] sm:text-[35px] md:text-[54px] text-white"> 
+        you can stake your token and claim every 7 days before token launch
+      </h2>
       </h3>
     </div>
   );

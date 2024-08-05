@@ -43,6 +43,8 @@ const USDT_ADDRESS_ON_BINANCE = "0x55d398326f99059fF775485246999027B3197955";
 //Pshiba token address
 // const PSHIBA_ADDRESS_ON_ETHEREUM = "0x5DFADeacc8239edBDa5598AEEd615d18F6825dE9";
 // const PSHIBA_ADDRESS_ON_BSC = "0x5DFADeacc8239edBDa5598AEEd615d18F6825dE9";
+let END_TIMESTAMP: number = 1738386000;
+let START_TIMESTAMP: number = 1716422400;
 
 const Hero = () => {
   /////////////// State & variables       ////////////////////////////
@@ -58,6 +60,7 @@ const Hero = () => {
   const [hoursRemained, setHoursRemained] = useState<Number>(0);
   const [minutesRemained, setMinutesRemained] = useState<Number>(0);
   const [secondsRemained, setSecondRemained] = useState<Number>(0);
+  const [timerPercent, setTimePercent] = useState<Number>(100);
 
   const [ethPrice, setEthPrice] = useState<Number>();
   const [bnbPrice, setBnbPrice] = useState<Number>();
@@ -130,7 +133,7 @@ const Hero = () => {
       chainId === 1
         ? ETHEREUM_PRESALE_CONTRACT_ADDRESS
         : BINANCE_PRESALE_CONTRACT_ADDRESS,
-    functionName: "totalCap",
+    functionName: "endTimeStamp",
     chainId: chainId === undefined ? 56 : chainId,
   });
   console.log("contract totalcap value", totalCap);
@@ -518,13 +521,23 @@ const Hero = () => {
   }, [buyAmount, shibaPrice, selectedBuyMethod]);
 
   useEffect(() => {
+    console.log(`timerPercent: ${END_TIMESTAMP} ${timeRemained} ${timerPercent}`);
+
+  }, [timerPercent]);
+
+  useEffect(() => {
     if (!_timeRemained) return;
 
     const timerHanlde = setInterval(() => {
       if (timeRemained === 0) clearInterval(timerHanlde);
       else {
+        let currentTimeStamp: number = Date.now()/1000;
+        let elapsedTime = END_TIMESTAMP - currentTimeStamp;
+        let totalDuration = END_TIMESTAMP - START_TIMESTAMP;
+        setTimePercent(elapsedTime/totalDuration * 100);
+        
         setTimeRemained((x: Number | undefined) => {
-          if (x === undefined) return Number(_timeRemained);
+          if (x === undefined) return Number(_timeRemained); 
           else return Number(x.valueOf() - 1);
         });
         console.log("Timer : ", timeRemained);
@@ -565,6 +578,10 @@ const Hero = () => {
                 <TimeAtomicBlock title="minutes" value={minutesRemained} />
                 <TimeAtomicBlockSepeateComp />
                 <TimeAtomicBlock title="seconds" value={secondsRemained} />
+              </div>
+              <div className="relative text-center font-bold text-2xl text-white mt-14 p-5 rounded-full overflow-hidden bg-gray-200">
+                <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(to right, #F7A039 ${timerPercent}%, transparent 0%)`, zIndex: 0 }}></div>
+                <span className="relative z-10">UNTIL SOLD OUT</span>
               </div>
               <div className="pt-7 mt-5 sm:mt-0">
                 <div className="sm:flex sm:justify-between grid justify-center">
