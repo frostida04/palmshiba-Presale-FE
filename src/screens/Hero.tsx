@@ -594,10 +594,12 @@ const Hero = () => {
                 <TimeAtomicBlockSepeateComp />
                 <TimeAtomicBlock title="seconds" value={secondsRemained} />
               </div>
-              <div className="relative text-center font-bold text-2xl text-white mt-14 p-5 rounded-full overflow-hidden bg-gray-200">
+              <center>
+              <div className="relative text-center w-[90%] justify-center font-bold text-2xl text-white mt-14 p-1 rounded-full overflow-hidden bg-gray-200">
                 <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(to right, #F7A039 ${timerPercent}%, rgb(4 1 28) ${timerPercent}%, transparent 100%)`, zIndex: 0 }}></div>
                 <span className="relative z-10">UNTIL SOLD OUT</span>
               </div>
+              </center>
               <div className="pt-7 mt-5 sm:mt-0">
                 <div className="sm:flex sm:justify-between grid justify-center">
                   <p className="font-shareTech sm:mx-0 mx-auto my-auto text-white text-[32px]">
