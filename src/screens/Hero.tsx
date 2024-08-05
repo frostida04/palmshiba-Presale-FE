@@ -65,6 +65,7 @@ const Hero = () => {
   const [ethPrice, setEthPrice] = useState<Number>();
   const [bnbPrice, setBnbPrice] = useState<Number>();
   const [timeRemained, setTimeRemained] = useState<Number | undefined>();
+  const [totalCapAmount, setTotalCapAmount] = useState<Number>(0);
 
   const { open } = useWeb3Modal();
   const { address, isConnected, chainId } = useAccount();
@@ -124,7 +125,7 @@ const Hero = () => {
     chainId: chainId === undefined ? 56 : chainId,
   });
 
-  const { data: totalCap } = useReadContract({
+  const { data: totalCap} = useReadContract({
     abi:
       chainId === 1
         ? ETHEREUM_PRESALE_CONTRACT_ABI
@@ -436,6 +437,19 @@ const Hero = () => {
 
   const handleBuyTokens = () => {
     doBuyTokens();
+    const { data: totalCap} = useReadContract({
+      abi:
+        chainId === 1
+          ? ETHEREUM_PRESALE_CONTRACT_ABI
+          : BINANCE_PRESALE_CONTRACT_ABI,
+      address:
+        chainId === 1
+          ? ETHEREUM_PRESALE_CONTRACT_ADDRESS
+          : BINANCE_PRESALE_CONTRACT_ADDRESS,
+      functionName: "totalCap",
+      chainId: chainId === undefined ? 56 : chainId,
+    })
+    setTotalCapAmount(Number(totalCap));
   };
 
   /////////// UI helper function ////////////
@@ -496,6 +510,7 @@ const Hero = () => {
 
   useEffect(() => {
     console.log("get eth & bnb price");
+    setTotalCapAmount(Number(totalCap));
     if (ethPrice === undefined) getETHPrice();
     if (bnbPrice === undefined) getBNBPrice();
   }, []);
@@ -590,10 +605,10 @@ const Hero = () => {
                   </p>
                   <p className="font-shareTech my-auto text-[#F7A039] text-[24px]">
                     ${" "}
-                    {!totalCap
+                    {!totalCapAmount
                       ? "0"
                       : Math.floor(
-                          Number(totalCap) /
+                          Number(totalCapAmount) /
                             (chainId === 1 ? 10 ** 2 : 10 ** 14)
                         ) /
                         10 ** 4}
