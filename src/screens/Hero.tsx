@@ -16,7 +16,7 @@ import {
 } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 import Web3 from "web3";
-import { ethers } from "ethers";
+import { ethers, Log } from "ethers";
 import { parseEther as viemParseEther } from "viem";
 
 ///////////////      RPC URLs     ///////////////
@@ -43,8 +43,10 @@ const USDT_ADDRESS_ON_BINANCE = "0x55d398326f99059fF775485246999027B3197955";
 //Pshiba token address
 // const PSHIBA_ADDRESS_ON_ETHEREUM = "0x5DFADeacc8239edBDa5598AEEd615d18F6825dE9";
 // const PSHIBA_ADDRESS_ON_BSC = "0x5DFADeacc8239edBDa5598AEEd615d18F6825dE9";
-let END_TIMESTAMP: number = 1738386000;
+let REAL_END_TIMESTAMP: number = 1738386000;
 let START_TIMESTAMP: number = 1716422400;
+let CYCLE_DURATION: number = 10 * 24 * 60 * 60;
+let END_TIMESTAMP: number = 1722873746 + CYCLE_DURATION;
 
 const Hero = () => {
   /////////////// State & variables       ////////////////////////////
@@ -95,7 +97,7 @@ const Hero = () => {
     functionName: "getCurrentTokenPrice",
     chainId: chainId === undefined ? 56 : chainId,
   });
-  console.log("contract shiba price value", shibaPrice);
+  //console.log("contract shiba price value", shibaPrice);
 
   const { data: claimAmount } = useReadContract({
     abi:
@@ -110,7 +112,7 @@ const Hero = () => {
     account: address,
     chainId: chainId === undefined ? 56 : chainId,
   });
-  console.log("Buy Amount", shibaPrice);
+ // console.log("Buy Amount", shibaPrice);
 
   const { data: _timeRemained } = useReadContract({
     abi:
@@ -137,7 +139,7 @@ const Hero = () => {
     functionName: "totalCap",
     chainId: chainId === undefined ? 56 : chainId,
   });
-  console.log("contract totalcap value", totalCap);
+  //console.log("contract totalcap value", totalCap);
 
   const { data: presaleStarted } = useReadContract({
     abi:
@@ -151,7 +153,7 @@ const Hero = () => {
     functionName: "presaleStarted",
     chainId: chainId === undefined ? 56 : chainId,
   });
-  console.log("contract presale value", presaleStarted);
+  //console.log("contract presale value", presaleStarted);
 
   ///////////////   helper functions      ////////////////////////////
   const myRound = (valueToBeRounded: any): any => {
@@ -183,7 +185,7 @@ const Hero = () => {
 
       // Calculate ETH price in terms of USDT
       const ethPriceInUSDT = (reserveUSDT * ethers.WeiPerEther) / reserveETH;
-      console.log("ethereum price", Number(ethPriceInUSDT) / 10 ** 6);
+      //console.log("ethereum price", Number(ethPriceInUSDT) / 10 ** 6);
       setEthPrice(Number(ethPriceInUSDT) / 10 ** 6);
     } catch (err) {
       console.log(err);
@@ -213,7 +215,7 @@ const Hero = () => {
         ]
       );
       const _bnbprice = Number(amounts[1]) / Number(10 ** 18);
-      console.log("BNB price", Math.floor(_bnbprice * 10 ** 4) / 10 ** 4);
+      //console.log("BNB price", Math.floor(_bnbprice * 10 ** 4) / 10 ** 4);
       setBnbPrice(Math.floor(_bnbprice * 10 ** 4) / 10 ** 4);
     } catch (err) {
       console.log(err);
@@ -257,7 +259,7 @@ const Hero = () => {
       setReceiveAmount(0.0);
       return;
     }
-    console.log("//////////////////", tmpBuyAmount);
+    //console.log("//////////////////", tmpBuyAmount);
     switch (selectedBuyMethod) {
       case "BSC":
         try {
@@ -483,20 +485,22 @@ const Hero = () => {
 
   useEffect(() => {
     if (!timeRemained) return;
+   // console.log(timeRemained);
+    
     setDaysRemained(Math.floor(Number(timeRemained) / (60 * 60 * 24)));
     setHoursRemained(Math.floor((Number(timeRemained) / 60 / 60) % 24));
     setMinutesRemained(Math.floor((Number(timeRemained) / 60) % 60));
     setSecondRemained(Math.floor(Number(timeRemained) % 60));
-    console.log(
-      Number(timeRemained) / (60 * 60 * 24),
-      (Number(timeRemained) / 60 / 60) % 24,
-      (Number(timeRemained) / 60) % 60,
-      Number(timeRemained) % 60
-    );
+    // console.log(
+    //   Number(timeRemained) / (60 * 60 * 24),
+    //   (Number(timeRemained) / 60 / 60) % 24,
+    //   (Number(timeRemained) / 60) % 60,
+    //   Number(timeRemained) % 60
+    // );
   }, [timeRemained]);
 
   useEffect(() => {
-    console.log("get eth & bnb price");
+    //console.log("get eth & bnb price");
     //console.log("contract totalcap value", totalCap);
     setTotalCapAmount(Number(totalCap));
     if (ethPrice === undefined) getETHPrice();
@@ -505,7 +509,7 @@ const Hero = () => {
 
   useEffect(() => {
     if (!isConnected) return;
-    console.log("connected", chainId);
+    //console.log("connected", chainId);
     if (chainId === 1) {
       setConnectedNetworkName("ETHEREUM");
       setWeb3(new Web3(ETHEREUM_RPC_URL));
@@ -524,7 +528,7 @@ const Hero = () => {
   }, [buyAmount, shibaPrice, selectedBuyMethod]);
 
   useEffect(() => {
-    console.log(`timerPercent: ${END_TIMESTAMP} ${timeRemained} ${timerPercent}`);
+    //console.log(`timerPercent: ${END_TIMESTAMP} ${timeRemained} ${timerPercent}`);
 
   }, [timerPercent]);
 
@@ -537,17 +541,21 @@ const Hero = () => {
         let currentTimeStamp: number = Date.now()/1000;
         let elapsedTime = END_TIMESTAMP - currentTimeStamp;
         let totalDuration = END_TIMESTAMP - START_TIMESTAMP;
+        if(elapsedTime <= 3) {
+          END_TIMESTAMP += CYCLE_DURATION;
+        }
+        if((REAL_END_TIMESTAMP - currentTimeStamp) <= 0) {
+          return;
+        }
         setTimePercent(elapsedTime/totalDuration * 100);
         
         setTotalCapAmount(Number(totalCap));
-
-        console.log(`totalcap: ${totalCapAmount}`);
         
         setTimeRemained((x: Number | undefined) => {
-          if (x === undefined) return Number(_timeRemained); 
+          if (x === undefined) return Number(elapsedTime); 
           else return Number(x.valueOf() - 1);
         });
-        console.log("Timer : ", timeRemained);
+       // console.log("Timer : ", timeRemained);
       }
     }, 1000);
 
@@ -571,7 +579,7 @@ const Hero = () => {
               </h2>
               <p className="text-white font-shareTech text-[25.24px]">
                 {presaleStarted === true
-                  ? "Time Remain"
+                  ? "B a t c h 1"
                   : "Presale not started"}
               </p>
             </Grid>
@@ -587,7 +595,7 @@ const Hero = () => {
                 <TimeAtomicBlock title="seconds" value={secondsRemained} />
               </div>
               <div className="relative text-center font-bold text-2xl text-white mt-14 p-5 rounded-full overflow-hidden bg-gray-200">
-                <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(to right, #F7A039 ${timerPercent}%, transparent 0%)`, zIndex: 0 }}></div>
+                <div className="absolute inset-0 rounded-full" style={{ background: `linear-gradient(to right, #F7A039 ${timerPercent}%, rgb(4 1 28) ${timerPercent}%, transparent 100%)`, zIndex: 0 }}></div>
                 <span className="relative z-10">UNTIL SOLD OUT</span>
               </div>
               <div className="pt-7 mt-5 sm:mt-0">

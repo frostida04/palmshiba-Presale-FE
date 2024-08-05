@@ -16,7 +16,7 @@ const Staking = () => {
         Staking Started On Batch 5
       <br /> 
       <h2 className="z-10 text-center outlined-text font-holtwood text-[30px] sm:text-[35px] md:text-[54px] text-white"> 
-        you can stake your token and claim every 7 days before token launch
+        you can stake your token and claim every 21 days before token launch
       </h2>
       </h3>
     </div>
