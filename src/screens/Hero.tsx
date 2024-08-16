@@ -43,11 +43,11 @@ const USDT_ADDRESS_ON_BINANCE = "0x55d398326f99059fF775485246999027B3197955";
 //Pshiba token address
 // const PSHIBA_ADDRESS_ON_ETHEREUM = "0x5DFADeacc8239edBDa5598AEEd615d18F6825dE9";
 // const PSHIBA_ADDRESS_ON_BSC = "0x5DFADeacc8239edBDa5598AEEd615d18F6825dE9";
-let REAL_END_TIMESTAMP: number = 1738386000;
-let START_TIMESTAMP: number = 1716422400;
-let CYCLE_DURATION: number = 10 * 24 * 60 * 60;
-let END_TIMESTAMP: number = 1722873746 + CYCLE_DURATION;
-
+let REAL_END_TIMESTAMP: number = new Date('2025-01-20T00:00:00Z').getTime();
+let START_TIMESTAMP: number = new Date('2024-05-24T00:00:00Z').getTime();
+let CYCLE_DURATION: number = 864000000;
+let END_TIMESTAMP: number = 1723782540000;
+let currentTimeStamp: number = Math.floor(Date.now());
 const Hero = () => {
   /////////////// State & variables       ////////////////////////////
   const [isBuyWithOpened, setIsBuyWithOpened] = useState<boolean>(false);
@@ -485,7 +485,7 @@ const Hero = () => {
 
   useEffect(() => {
     if (!timeRemained) return;
-   // console.log(timeRemained);
+    console.log(timeRemained);
     
     setDaysRemained(Math.floor(Number(timeRemained) / (60 * 60 * 24)));
     setHoursRemained(Math.floor((Number(timeRemained) / 60 / 60) % 24));
@@ -538,12 +538,14 @@ const Hero = () => {
     const timerHanlde = setInterval(() => {
       if (timeRemained === 0) clearInterval(timerHanlde);
       else {
-        let currentTimeStamp: number = Date.now()/1000;
+        currentTimeStamp += 1000;
         let elapsedTime = END_TIMESTAMP - currentTimeStamp;
-        let totalDuration = END_TIMESTAMP - START_TIMESTAMP;
-        if(elapsedTime <= 3) {
+        let totalDuration = REAL_END_TIMESTAMP - START_TIMESTAMP;
+        if(elapsedTime <= 10000) {
           END_TIMESTAMP += CYCLE_DURATION;
         }
+        console.log(START_TIMESTAMP, REAL_END_TIMESTAMP, END_TIMESTAMP, elapsedTime, currentTimeStamp);
+        
         if((REAL_END_TIMESTAMP - currentTimeStamp) <= 0) {
           return;
         }
@@ -554,10 +556,11 @@ const Hero = () => {
         
         setTotalCapAmount(totalAmount);
         
-        setTimeRemained((x: Number | undefined) => {
-          if (x === undefined) return Number(elapsedTime); 
-          else return Number(x.valueOf() - 1);
-        });
+        // setTimeRemained((x: Number | undefined) => {
+        //   if (x === undefined) return Number(elapsedTime/1000); 
+        //   else return Number(x.valueOf() - 1);
+        // });
+        setTimeRemained(elapsedTime/1000);
        // console.log("Timer : ", timeRemained);
       }
     }, 1000);
